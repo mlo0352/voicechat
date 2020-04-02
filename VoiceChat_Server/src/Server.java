@@ -29,6 +29,7 @@ public class Server {
     private ArrayList<Message> broadCastQueue = new ArrayList<Message>();    
     private ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
     private int port;
+    private ArrayList<Team> teams = new ArrayList<Team>();
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
     
