@@ -28,7 +28,8 @@ public class Server {
     
     private ArrayList<Message> broadCastQueue = new ArrayList<Message>();    
     private ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
-    private int port;
+    private int audioPort;
+    private int controlPort;
     private ArrayList<Team> teams = new ArrayList<Team>();
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
@@ -45,9 +46,47 @@ public class Server {
     private ServerSocket s;
     
     public Server(int port, boolean upnp) throws Exception{
-        this.port = port;
+        //this.controlServer(port, upnp);
+        this.audioServer(port, upnp);
+    }
+    
+    public void controlServer(int port, boolean upnp) throws Exception{
+        this.controlPort = ++port;
         if(upnp){
-            Log.add("Setting up NAT Port Forwarding...");
+            u = uPNPSetup(port);
+        }
+    }
+    
+    public void audioServer(int port, boolean upnp) throws Exception{
+        this.audioPort = port;
+        //<editor-fold defaultstate="collapsed" desc="UPNP Setup">
+        if(upnp){
+            u = uPNPSetup(port);
+        }
+        //</editor-fold>
+        try {
+            s = new ServerSocket(port); //listen on specified port
+            Log.add("Port " + port + ": server started");
+        } catch (IOException ex) {
+            Log.add("Server error " + ex + "(port " + port + ")");
+            throw new Exception("Error "+ex);
+        }
+        new BroadcastThread().start(); //create a BroadcastThread and start it
+        //create a new control thread
+        for (;;) { //accept all incoming connection
+            try {
+                Socket c = s.accept();
+                ClientConnection cc = new ClientConnection(this, c); //create a ClientConnection thread
+                cc.start();
+                addToClients(cc);
+                Log.add("new client " + c.getInetAddress() + ":" + c.getPort() + " on port " + port);
+            } catch (IOException ex) {
+            }
+        }
+    }
+    
+    private UpnpService uPNPSetup(int port) throws Exception{
+        Log.add("Setting up NAT Port Forwarding...");
             //first we need the address of this machine on the local network
             try {
                 Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -86,25 +125,7 @@ public class Server {
             }
             u = new UpnpServiceImpl(new PortMappingListener(new PortMapping(port, ipAddress, PortMapping.Protocol.TCP)));
             u.getControlPoint().search();
-        }
-        try {
-            s = new ServerSocket(port); //listen on specified port
-            Log.add("Port " + port + ": server started");
-        } catch (IOException ex) {
-            Log.add("Server error " + ex + "(port " + port + ")");
-            throw new Exception("Error "+ex);
-        }
-        new BroadcastThread().start(); //create a BroadcastThread and start it
-        for (;;) { //accept all incoming connection
-            try {
-                Socket c = s.accept();
-                ClientConnection cc = new ClientConnection(this, c); //create a ClientConnection thread
-                cc.start();
-                addToClients(cc);
-                Log.add("new client " + c.getInetAddress() + ":" + c.getPort() + " on port " + port);
-            } catch (IOException ex) {
-            }
-        }
+            return u;
     }
 
     private void addToClients(ClientConnection cc) {
@@ -132,7 +153,7 @@ public class Server {
                     ArrayList<ClientConnection> toRemove = new ArrayList<ClientConnection>(); //create a list of dead connections
                     for (ClientConnection cc : clients) {
                         if (!cc.isAlive()) { //connection is dead, need to be removed
-                            Log.add("dead connection closed: " + cc.getInetAddress() + ":" + cc.getPort() + " on port " + port);
+                            Log.add("dead connection closed: " + cc.getInetAddress() + ":" + cc.getPort() + " on port " + audioPort);
                             toRemove.add(cc);
                         }
                     }
