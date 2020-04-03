@@ -60,7 +60,12 @@ public class Server {
 //            u = uPNPSetup(port);
 //        }
         HttpServer server = HttpServer.create(new InetSocketAddress(port),0);
-        server.createContext("/test", new TestHandler());
+        server.createContext("/createTeam", new CreateTeamHandler(this));
+        server.createContext("/deleteTeam", new DeleteTeamHandler());
+        server.createContext("/getTeams", new GetTeamsHandler());
+        server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler());
+        server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
+        server.createContext("/muteTeamBroadcast", new MuteTeamBroadcastHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -184,22 +189,7 @@ public class Server {
         }
     }
     
-    private class ControlThread extends Thread {
-        public ControlThread() {
-        }
-        
-        @Override
-        public void run(){
-            for (;;) { //accept all incoming connection
-                try {
-                    Socket c = s.accept();
-                    // 1. Read HTTP request from the client socket
-                    // 2. Prepare an HTTP response
-                    // 3. Send HTTP response to the client
-                    // 4. Close the socket
-                } catch (IOException ex) {
-                }
-            }
-        }
+    public void createTeam(String teamName){
+        System.out.println(teamName);
     }
 }
