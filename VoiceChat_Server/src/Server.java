@@ -1,7 +1,9 @@
 
+import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,6 +14,8 @@ import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
 import org.teleal.cling.support.igd.PortMappingListener;
 import org.teleal.cling.support.model.PortMapping;
+
+
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -46,15 +50,19 @@ public class Server {
     private ServerSocket s;
     
     public Server(int port, boolean upnp) throws Exception{
-        //this.controlServer(port, upnp);
+        this.controlServer(port, upnp);
         this.audioServer(port, upnp);
     }
     
     public void controlServer(int port, boolean upnp) throws Exception{
         this.controlPort = ++port;
-        if(upnp){
-            u = uPNPSetup(port);
-        }
+//        if(upnp){
+//            u = uPNPSetup(port);
+//        }
+        HttpServer server = HttpServer.create(new InetSocketAddress(port),0);
+        server.createContext("/test", new TestHandler());
+        server.setExecutor(null); // creates a default executor
+        server.start();
     }
     
     public void audioServer(int port, boolean upnp) throws Exception{
@@ -72,7 +80,6 @@ public class Server {
             throw new Exception("Error "+ex);
         }
         new BroadcastThread().start(); //create a BroadcastThread and start it
-        //create a new control thread
         for (;;) { //accept all incoming connection
             try {
                 Socket c = s.accept();
@@ -172,6 +179,25 @@ public class Server {
                     }
                 } catch (Throwable t) {
                     //mutex error, try again
+                }
+            }
+        }
+    }
+    
+    private class ControlThread extends Thread {
+        public ControlThread() {
+        }
+        
+        @Override
+        public void run(){
+            for (;;) { //accept all incoming connection
+                try {
+                    Socket c = s.accept();
+                    // 1. Read HTTP request from the client socket
+                    // 2. Prepare an HTTP response
+                    // 3. Send HTTP response to the client
+                    // 4. Close the socket
+                } catch (IOException ex) {
                 }
             }
         }
