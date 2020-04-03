@@ -62,7 +62,7 @@ public class Server {
         HttpServer server = HttpServer.create(new InetSocketAddress(port),0);
         server.createContext("/createTeam", new CreateTeamHandler(this));
         server.createContext("/deleteTeam", new DeleteTeamHandler());
-        server.createContext("/getTeams", new GetTeamsHandler());
+        server.createContext("/getTeams", new GetTeamsHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler());
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
         server.createContext("/muteTeamBroadcast", new MuteTeamBroadcastHandler());
@@ -191,5 +191,16 @@ public class Server {
     
     public void createTeam(String teamName){
         System.out.println(teamName);
+        Team team = new Team();
+        team.setTeamName(teamName);
+        teams.add(team);
+    }
+    
+    public ArrayList<String> getTeams(){
+        ArrayList<String> teamsStrings = new ArrayList<String>();
+        for (Team t : teams){
+            teamsStrings.add(t.getTeamName());
+        }
+        return teamsStrings;
     }
 }

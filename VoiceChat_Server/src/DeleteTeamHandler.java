@@ -19,13 +19,7 @@ public class DeleteTeamHandler implements HttpHandler{
     
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        String jsonString = new JSONObject()
-                .put("JSON1", "Hello World!")
-                .put("JSON2", "Hello my World!")
-                .put("JSON3", new JSONObject()
-                        .put("key1", "value1")).toString();
-        exchange.sendResponseHeaders(200, jsonString.length());
-        exchange.getResponseBody().write(jsonString.getBytes(Charset.forName("UTF-8")));
+        exchange.sendResponseHeaders(501, 0);
         exchange.close();
     }
             

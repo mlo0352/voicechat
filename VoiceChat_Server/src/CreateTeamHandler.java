@@ -32,10 +32,15 @@ public class CreateTeamHandler implements HttpHandler{
         
         String name = requestJson.get("name").toString();
         
-        mainServer.createTeam(name);
-        
-        exchange.sendResponseHeaders(201, 0);
-        exchange.close();
+        if (mainServer.getTeams().contains(name)) {
+            exchange.sendResponseHeaders(400, 0);
+            exchange.close();
+        } else {
+            mainServer.createTeam(name);
+
+            exchange.sendResponseHeaders(201, 0);
+            exchange.close();
+        }
     }
             
 }

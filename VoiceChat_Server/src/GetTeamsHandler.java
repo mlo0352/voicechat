@@ -2,6 +2,7 @@ import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import org.json.*;
+import org.json.JSONArray;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,17 +16,23 @@ import org.json.*;
  */
 public class GetTeamsHandler implements HttpHandler{
     
-    HttpServer server;
+    private final Server mainServer;
+
+    public GetTeamsHandler(Server mainServer) {
+        this.mainServer = mainServer;
+    }    
     
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        String jsonString = new JSONObject()
-                .put("JSON1", "Hello World!")
-                .put("JSON2", "Hello my World!")
-                .put("JSON3", new JSONObject()
-                        .put("key1", "value1")).toString();
-        exchange.sendResponseHeaders(200, jsonString.length());
-        exchange.getResponseBody().write(jsonString.getBytes(Charset.forName("UTF-8")));
+        if (!("POST".equals(requestMethod))){
+            exchange.sendResponseHeaders(405, 0);
+            exchange.close();
+        }
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("teams", new JSONArray(mainServer.getTeams()));
+        String responseString = responseJson.toString();
+        exchange.sendResponseHeaders(200, responseString.length());
+        exchange.getResponseBody().write(responseString.getBytes(Charset.forName("UTF-8")));
         exchange.close();
     }
             

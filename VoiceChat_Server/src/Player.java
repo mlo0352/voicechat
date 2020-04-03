@@ -12,17 +12,17 @@ public class Player {
     private ClientConnection conn;
     private String name;
     
-    public Player(ClientConnection newConn, String newName)
+    public Player(ClientConnection conn, String name)
     {
-        conn = newConn;
-        name = newName;
+        this.conn = conn;
+        this.name = name;
     }
     
     public String getName(){
         return name;
     }
     
-    public void setName(String newName){
-        name = newName;
+    public void setName(String name){
+        this.name = name;
     }
 }

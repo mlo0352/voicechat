@@ -48,9 +48,9 @@ public class Team {
         return teamName;
     }
     
-    public void setTeamName(String name)
+    public void setTeamName(String teamName)
     {
-        teamName = name;
+        this.teamName = teamName;
     }
     
     public int getScore()
