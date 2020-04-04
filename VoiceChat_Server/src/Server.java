@@ -61,9 +61,9 @@ public class Server {
 //        }
         HttpServer server = HttpServer.create(new InetSocketAddress(port),0);
         server.createContext("/createTeam", new CreateTeamHandler(this));
-        server.createContext("/deleteTeam", new DeleteTeamHandler());
+        server.createContext("/deleteTeam", new DeleteTeamHandler(this));
         server.createContext("/getTeams", new GetTeamsHandler(this));
-        server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler());
+        server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
         server.createContext("/muteTeamBroadcast", new MuteTeamBroadcastHandler());
         server.setExecutor(null); // creates a default executor
@@ -202,5 +202,27 @@ public class Server {
             teamsStrings.add(t.getTeamName());
         }
         return teamsStrings;
+    }
+    
+    public void addPlayerToTeam(String teamName, String playerName, long chId){
+        for (Team t : teams){
+            if (teamName.equals(t.getTeamName())){
+                t.addPlayerToTeam(playerName, chId);
+            }
+        }
+    }
+    
+    public ArrayList<String> getPlayersOnTeam(String teamName){
+        ArrayList<String> players = new ArrayList<String>();
+        for (Team t : teams){
+            if (teamName.equals(t.getTeamName())){
+                players = t.getPlayerNames();
+            }
+        }
+        return players;
+    }
+    
+    public int getAudioPort(){
+        return audioPort;
     }
 }

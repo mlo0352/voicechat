@@ -1,5 +1,8 @@
-
+//import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Set;
+import com.google.common.collect.BiMap; 
+import com.google.common.collect.HashBiMap; 
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,18 +15,21 @@ import java.util.ArrayList;
  * @author Ian
  */
 public class Team {
-    private ArrayList<ClientConnection> teamMembersClients = new ArrayList<ClientConnection>();
-    private int max;
+//    private ArrayList<ClientConnection> teamMembersClients = new ArrayList<ClientConnection>();
+//    private HashMap<String, ClientConnection> teamMembersNamesClients = new HashMap<String, ClientConnection>();
+    private BiMap<String, Long> teamMembersNamesClients = HashBiMap.create(); 
+    private int max = 8;
     private String teamName;
     private int numberOfMembers;
     private int score = 0;
     
-    public void addClientToTeam(ClientConnection newTeamMemberClient)
+    public void addPlayerToTeam(String playerName, Long chId)
     {
-        if (!teamMembersClients.contains(newTeamMemberClient) && ((numberOfMembers + 1) <= max)) 
-        {
-            teamMembersClients.add(newTeamMemberClient);
-            numberOfMembers++;
+        if (!teamMembersNamesClients.containsKey(playerName)){
+            if ((numberOfMembers + 1) <= max) {
+                teamMembersNamesClients.put(playerName, chId);
+                numberOfMembers++;
+            }
         } else {
             throw new UnsupportedOperationException();
         }
@@ -31,11 +37,11 @@ public class Team {
     
     public void removeClientFromTeam(ClientConnection teamMemberClient)
     {
-        if (teamMembersClients.contains(teamMemberClient))
-        {
-            teamMembersClients.remove(teamMemberClient);
-            numberOfMembers--;
-        }
+//        if (teamMembersClients.contains(teamMemberClient))
+//        {
+//            teamMembersClients.remove(teamMemberClient);
+//            numberOfMembers--;
+//        }
     }
     
     public int getNumberOfMembers()
@@ -62,5 +68,13 @@ public class Team {
     {
         score += points;
         return score;
+    }
+    
+    public ArrayList<String> getPlayerNames(){
+        ArrayList<String> playerNames = new ArrayList<String>();
+        Set<String> names = teamMembersNamesClients.inverse().values();
+        for (String name : names) 
+            playerNames.add(name); 
+        return playerNames;
     }
 }

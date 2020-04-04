@@ -15,7 +15,11 @@ import org.json.*;
  */
 public class DeleteTeamHandler implements HttpHandler{
     
-    HttpServer server;
+    private final Server mainServer;
+
+    public DeleteTeamHandler(Server mainServer) {
+        this.mainServer = mainServer;
+    }    
     
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
