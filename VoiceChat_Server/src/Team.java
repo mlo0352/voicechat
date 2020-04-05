@@ -1,4 +1,3 @@
-//import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Set;
 import com.google.common.collect.BiMap; 
@@ -15,13 +14,12 @@ import com.google.common.collect.HashBiMap;
  * @author Ian
  */
 public class Team {
-//    private ArrayList<ClientConnection> teamMembersClients = new ArrayList<ClientConnection>();
-//    private HashMap<String, ClientConnection> teamMembersNamesClients = new HashMap<String, ClientConnection>();
     private BiMap<String, Long> teamMembersNamesClients = HashBiMap.create(); 
     private int max = 8;
     private String teamName;
     private int numberOfMembers;
     private int score = 0;
+    private boolean muted = true;
     
     public void addPlayerToTeam(String playerName, Long chId)
     {
@@ -76,5 +74,10 @@ public class Team {
         for (String name : names) 
             playerNames.add(name); 
         return playerNames;
+    }
+    
+    public boolean toggleMute(){
+        muted = !muted;
+        return muted;
     }
 }

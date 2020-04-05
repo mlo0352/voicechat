@@ -65,7 +65,7 @@ public class Server {
         server.createContext("/getTeams", new GetTeamsHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
-        server.createContext("/muteTeamBroadcast", new MuteTeamBroadcastHandler());
+        server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
     }

@@ -13,7 +13,7 @@ import org.json.*;
  *
  * @author Ian
  */
-public class MuteTeamBroadcastHandler implements HttpHandler{
+public class ToggleMuteTeamBroadcastHandler implements HttpHandler{
     
     HttpServer server;
     
