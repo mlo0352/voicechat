@@ -23,6 +23,8 @@ public class Client extends Thread {
 
     public Client(String serverIp, int serverPort) throws UnknownHostException, IOException {
         s = new Socket(serverIp, serverPort);
+        byte[] addr = s.getInetAddress().getAddress();
+        long chId = (addr[0] << 48 | addr[1] << 32 | addr[2] << 24 | addr[3] << 16) + s.getLocalPort(); //generate unique chId from client's IP and port
     }
 
     @Override
