@@ -4,6 +4,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -13,7 +14,9 @@ import javax.swing.JOptionPane;
  *
  * @author dosse
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame {        
+    Client c;
+    RestClient r;
     private MicTester micTester;
     //this class is used to test the microphone. it manages the volume meter
     private class MicTester extends Thread{
@@ -83,7 +86,7 @@ public class GUI extends javax.swing.JFrame {
         setPlayerNameButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton2 = new javax.swing.JButton();
+        createTeamButton = new javax.swing.JButton();
         createTeamNameField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -151,7 +154,12 @@ public class GUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jButton2.setText("Create Team");
+        createTeamButton.setText("Create Team");
+        createTeamButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createTeamButtonActionPerformed(evt);
+            }
+        });
 
         StringBuilder sbt = new StringBuilder(n);
         for (int i = 0; i < n; i++) {
@@ -183,6 +191,11 @@ public class GUI extends javax.swing.JFrame {
         jButton4.setText("Send Answer");
 
         refreshTeamsButton.setText("Refresh Teams");
+        refreshTeamsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshTeamsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,7 +241,7 @@ public class GUI extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(setPlayerNameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(createTeamButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -274,7 +287,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(setPlayerNameButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(createTeamButton)
                     .addComponent(createTeamNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,9 +309,9 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
-        Client c;
         try {
             c = new Client(ip.getText(), Integer.parseInt(port.getText()));
+            r = new RestClient(ip.getText(), Integer.parseInt(port.getText()) + 1, c.getChId());
             c.start(); //connect to specified server at specified port
         } catch (Exception ex) { //connection failed
             JOptionPane.showMessageDialog(rootPane, ex,"Error",JOptionPane.ERROR_MESSAGE);
@@ -330,6 +343,19 @@ public class GUI extends javax.swing.JFrame {
     private void createTeamNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_createTeamNameFieldActionPerformed
+
+    private void refreshTeamsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTeamsButtonActionPerformed
+        ArrayList<String> teams;
+        try{
+            teams = r.getTeams();
+        } catch (Exception e){}
+    }//GEN-LAST:event_refreshTeamsButtonActionPerformed
+
+    private void createTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamButtonActionPerformed
+        int i = 1;
+        try{
+            r.createTeam(createTeamNameField.getText());
+        } catch (Exception e){}    }//GEN-LAST:event_createTeamButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,9 +400,9 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton createTeamButton;
     private javax.swing.JTextField createTeamNameField;
     private javax.swing.JTextField ip;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
