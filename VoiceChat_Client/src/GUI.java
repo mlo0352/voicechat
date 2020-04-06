@@ -4,6 +4,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 
 /*
@@ -85,7 +86,7 @@ public class GUI extends javax.swing.JFrame {
         playerNameField = new javax.swing.JTextField();
         setPlayerNameButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        teamList = new javax.swing.JList<>();
         createTeamButton = new javax.swing.JButton();
         createTeamNameField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
@@ -147,12 +148,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(teamList);
 
         createTeamButton.setText("Create Team");
         createTeamButton.addActionListener(new java.awt.event.ActionListener() {
@@ -298,7 +294,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -337,7 +333,9 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_micVolStateChanged
 
     private void setPlayerNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPlayerNameButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            r.setPlayerName(playerNameField.getText());
+        } catch (Exception e) {}        
     }//GEN-LAST:event_setPlayerNameButtonActionPerformed
 
     private void createTeamNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamNameFieldActionPerformed
@@ -345,14 +343,20 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_createTeamNameFieldActionPerformed
 
     private void refreshTeamsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTeamsButtonActionPerformed
-        ArrayList<String> teams;
+        ArrayList<String> teams = new ArrayList<String>();
         try{
             teams = r.getTeams();
         } catch (Exception e){}
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String team: teams){
+            model.addElement(team);
+        }
+        teamList.setModel(model);
+        int i = 1;
+        
     }//GEN-LAST:event_refreshTeamsButtonActionPerformed
 
     private void createTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamButtonActionPerformed
-        int i = 1;
         try{
             r.createTeam(createTeamNameField.getText());
         } catch (Exception e){}    }//GEN-LAST:event_createTeamButtonActionPerformed
@@ -412,7 +416,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
@@ -423,5 +426,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton refreshTeamsButton;
     private javax.swing.JButton setPlayerNameButton;
     private javax.swing.JButton start;
+    private javax.swing.JList<String> teamList;
     // End of variables declaration//GEN-END:variables
 }

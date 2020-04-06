@@ -46,6 +46,9 @@ public class RestClient{
         this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, input);
         JSONObject requestJson = jsonFromInputStream(conn.getInputStream());
         System.out.println(requestJson);
+        JSONArray ja = requestJson.getJSONArray("teams");
+        for(int i = 0; i < ja.length(); i++)
+            responseList.add(ja.getString(i));
         return responseList;
     }
     
@@ -61,6 +64,52 @@ public class RestClient{
         j.put("name", teamName);
         this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_CREATED, j.toString());
         conn.disconnect();
+    }
+    
+    public void deleteTeam(String teamName) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "deleteTeam");
+    }
+    
+    public void setPlayerName(String playerName) throws IOException, MalformedURLException {
+        URL url = new URL(this.url + "setPlayerName");
+        String input = "";
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("name", playerName);
+        j.put("chId", chId);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
+    public void addPlayerToTeam(String teamName) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "addPlayerToTeam");
+        String input = "";
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("teamname", teamName);
+        j.put("playername", chId);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
+    public void removePlayerFromTeam() throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "removePlayerFromTeam");
+    }
+    
+    public void toggleMutePlayerBroadcast() throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "toggleMutePlayerBroadcast");
+    }
+    
+    public void toggleMuteTeamBroadcast() throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "toggleMuteTeamBroadcast");
     }
     
     public OutputStream getOSAndVerifyResponseCode(HttpURLConnection conn, int httpCode, String input) throws IOException{

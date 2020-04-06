@@ -63,6 +63,7 @@ public class Server {
         server.createContext("/createTeam", new CreateTeamHandler(this));
         server.createContext("/deleteTeam", new DeleteTeamHandler(this));
         server.createContext("/getTeams", new GetTeamsHandler(this));
+        server.createContext("/setPlayerName", new setPlayerNameHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
