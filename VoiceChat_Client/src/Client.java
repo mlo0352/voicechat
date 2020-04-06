@@ -20,11 +20,12 @@ public class Client extends Thread {
     private Socket s;
     private ArrayList<AudioChannel> chs = new ArrayList<AudioChannel>();
     private MicThread st;
+    volatile long chId;
 
     public Client(String serverIp, int serverPort) throws UnknownHostException, IOException {
         s = new Socket(serverIp, serverPort);
         byte[] addr = s.getInetAddress().getAddress();
-        long chId = (addr[0] << 48 | addr[1] << 32 | addr[2] << 24 | addr[3] << 16) + s.getLocalPort(); //generate unique chId from client's IP and port
+        chId = (addr[0] << 48 | addr[1] << 32 | addr[2] << 24 | addr[3] << 16) + s.getLocalPort(); //generate unique chId from client's IP and port
     }
 
     @Override
@@ -68,6 +69,10 @@ public class Client extends Thread {
         } catch (Exception e) { //connection error
             System.out.println("client err " + e.toString());
         }
+    }
+    
+    public long getChId(){
+        return this.chId;
     }
 }
  
