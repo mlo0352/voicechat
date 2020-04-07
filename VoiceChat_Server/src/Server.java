@@ -35,6 +35,7 @@ public class Server {
     private int audioPort;
     private int controlPort;
     private ArrayList<Team> teams = new ArrayList<Team>();
+    private ArrayList<Player> players = new ArrayList<Player>();
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
     
@@ -63,7 +64,8 @@ public class Server {
         server.createContext("/createTeam", new CreateTeamHandler(this));
         server.createContext("/deleteTeam", new DeleteTeamHandler(this));
         server.createContext("/getTeams", new GetTeamsHandler(this));
-        server.createContext("/setPlayerName", new setPlayerNameHandler(this));
+        server.createContext("/getPlayersByTeam", new GetPlayersByTeamHandler(this));
+        server.createContext("/setPlayerName", new SetPlayerNameHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
@@ -205,7 +207,29 @@ public class Server {
         return teamsStrings;
     }
     
-    public void addPlayerToTeam(String teamName, String playerName, long chId){
+    public void addPlayer(String playerName, long chId){
+        boolean found = false;
+        for (Player player: players) {
+            if (playerName.equals(player.getName()) || (player.getChId() == chId)) {
+                player.setName(playerName);
+                player.setChId(chId);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            players.add(new Player(chId, playerName));
+        }
+    }
+    
+    public void addPlayerToTeam(String teamName, long chId){
+        String playerName = "";
+        for (Player player: players){
+            if (player.getChId() == chId){
+                playerName = player.getName();
+                break;
+            }
+        }
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
                 t.addPlayerToTeam(playerName, chId);
@@ -213,14 +237,24 @@ public class Server {
         }
     }
     
-    public ArrayList<String> getPlayersOnTeam(String teamName){
-        ArrayList<String> players = new ArrayList<String>();
+    public ArrayList<Player> getPlayersByTeam(String teamName){
+        ArrayList<Player> players = new ArrayList<Player>();
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
-                players = t.getPlayerNames();
+                players = t.getPlayers();
             }
         }
         return players;
+    }
+    
+    public boolean isChIdOnTeam(String teamName, long chId){
+        ArrayList<Player> players = this.getPlayersByTeam(teamName);
+        for (Player player: players){
+            if (player.getChId() == chId){
+                return true;
+            }
+        }
+        return false;
     }
     
     public int getAudioPort(){

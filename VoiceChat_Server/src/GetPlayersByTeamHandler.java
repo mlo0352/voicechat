@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import org.json.*;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,11 +15,11 @@ import org.json.*;
  *
  * @author Ian
  */
-public class SetPlayerNameHandler implements HttpHandler{
+public class GetPlayersByTeamHandler implements HttpHandler{
     
     private final Server mainServer;
 
-    public SetPlayerNameHandler(Server mainServer) {
+    public GetPlayersByTeamHandler(Server mainServer) {
         this.mainServer = mainServer;
     }    
     
@@ -29,17 +30,20 @@ public class SetPlayerNameHandler implements HttpHandler{
             exchange.close();
         }
         JSONObject requestJson = new JsonFromInputStream().JsonFromInputStream(exchange.getRequestBody());
-        
-        String playerName = requestJson.get("name").toString();
-        long chId = Long.parseLong(requestJson.get("chId").toString());
-        System.out.println(playerName + ": " + String.valueOf(chId));
-        
-        Headers headers = exchange.getRequestHeaders();
-        exchange.sendResponseHeaders(200, 0);
-        exchange.close();
-        
-        mainServer.addPlayer(playerName, chId);
-        exchange.sendResponseHeaders(200, 0);
+        String teamName = requestJson.get("teamname").toString();
+        if ("".equals(teamName)){
+            teamName = "Lobby";
+        }
+        ArrayList<Player> players = mainServer.getPlayersByTeam(teamName);
+        ArrayList<String> playersArray = new ArrayList<String>();
+        for (Player player : players){
+            playersArray.add(player.getName());
+        }
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("players", new JSONArray(playersArray));
+        String responseString = responseJson.toString();
+        exchange.sendResponseHeaders(200, responseString.length());
+        exchange.getResponseBody().write(responseString.getBytes(Charset.forName("UTF-8")));
         exchange.close();
     }
             

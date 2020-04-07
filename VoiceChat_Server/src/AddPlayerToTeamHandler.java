@@ -31,19 +31,14 @@ public class AddPlayerToTeamHandler implements HttpHandler{
         JSONObject requestJson = new JsonFromInputStream().JsonFromInputStream(exchange.getRequestBody());
         
         String teamName = requestJson.get("teamname").toString();
-        String playerName = requestJson.get("playername").toString();
+        long chId = Long.parseLong(requestJson.get("chId").toString());
         
-        byte[] addr = exchange.getRemoteAddress().getAddress().getAddress();
-        int port = exchange.getRemoteAddress().getPort();
-        
-        long chId = (addr[0] << 48 | addr[1] << 32 | addr[2] << 24 | addr[3] << 16) + port;
-        
-        if (mainServer.getPlayersOnTeam(teamName).contains(playerName)) {
+        // TODO: replace this with an exception-based system - chId check should be in addPlayerToTeam method in Team class
+        if (mainServer.isChIdOnTeam(teamName, chId)) {
             exchange.sendResponseHeaders(400, 0);
             exchange.close();
         } else {
-            mainServer.addPlayerToTeam(teamName, playerName, chId);
-
+            mainServer.addPlayerToTeam(teamName, chId);
             exchange.sendResponseHeaders(201, 0);
             exchange.close();
         }

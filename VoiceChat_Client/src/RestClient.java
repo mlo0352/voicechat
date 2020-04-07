@@ -85,6 +85,26 @@ public class RestClient{
         conn.disconnect();
     }
     
+    public ArrayList<String> getPlayersOnTeam(String teamName)  throws IOException, MalformedURLException {
+        ArrayList<String> responseList = new ArrayList<String>();
+        URL url = new URL(this.url + "getPlayersByTeam");
+        JSONObject j = new JSONObject();
+        j.put("teamname", teamName);
+        j.put("chId", chId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        JSONObject requestJson = jsonFromInputStream(conn.getInputStream());
+        System.out.println(requestJson);
+        JSONArray ja = requestJson.getJSONArray("players");
+        for(int i = 0; i < ja.length(); i++)
+            responseList.add(ja.getString(i));
+        return responseList;
+    }
+    
     public void addPlayerToTeam(String teamName) throws IOException, MalformedURLException{
         URL url = new URL(this.url + "addPlayerToTeam");
         String input = "";
@@ -94,8 +114,12 @@ public class RestClient{
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("ChId", this.chId);
         JSONObject j = new JSONObject();
-        j.put("teamname", teamName);
-        j.put("playername", chId);
+        if (teamName.isEmpty()){
+            j.put("teamname", input);
+        } else{
+            j.put("teamname", teamName);
+        }
+        j.put("chId", chId);
         this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
         conn.disconnect();
     }

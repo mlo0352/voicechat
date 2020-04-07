@@ -20,17 +20,13 @@ public class Team {
     private int numberOfMembers;
     private int score = 0;
     private boolean muted = true;
+    private ArrayList<Player> players = new ArrayList<Player>();
     
     public void addPlayerToTeam(String playerName, Long chId)
     {
-        if (!teamMembersNamesClients.containsKey(playerName)){
-            if ((numberOfMembers + 1) <= max) {
-                teamMembersNamesClients.put(playerName, chId);
-                numberOfMembers++;
-            }
-        } else {
-            throw new UnsupportedOperationException();
-        }
+        players.add(new Player(chId, playerName));
+        System.out.println("Player added [" + playerName + ": " + String.valueOf(chId) + "]");
+        
     }
     
     public void removeClientFromTeam(ClientConnection teamMemberClient)
@@ -74,6 +70,10 @@ public class Team {
         for (String name : names) 
             playerNames.add(name); 
         return playerNames;
+    }
+    
+    public ArrayList<Player> getPlayers(){
+        return players;
     }
     
     public boolean toggleMute(){

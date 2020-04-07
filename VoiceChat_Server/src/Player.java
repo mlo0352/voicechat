@@ -9,12 +9,12 @@
  * @author Ian
  */
 public class Player {
-    private ClientConnection conn;
+    private long chId;
     private String name;
     
-    public Player(ClientConnection conn, String name)
+    public Player(long chId, String name)
     {
-        this.conn = conn;
+        this.chId = chId;
         this.name = name;
     }
     
@@ -24,5 +24,13 @@ public class Player {
     
     public void setName(String name){
         this.name = name;
+    }
+    
+    public long getChId(){
+        return chId;
+    }
+    
+    public void setChId(long chId){
+        this.chId = chId;
     }
 }
