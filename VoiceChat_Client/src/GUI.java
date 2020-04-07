@@ -369,6 +369,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel4.setVisible(false);
         jLabel2.setVisible(false);
         System.out.println(c.getChId());
+        
+        //initialize fields
+        updateTeamList();
         //setSize(getWidth(),getHeight()-75);
     }//GEN-LAST:event_startActionPerformed
 
@@ -387,15 +390,16 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_createTeamNameFieldActionPerformed
 
     private void refreshTeamsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTeamsButtonActionPerformed
-        ArrayList<String> teams = new ArrayList<String>();
-        try{
-            teams = r.getTeams();
-        } catch (Exception e){}
-        DefaultListModel<String> model = new DefaultListModel<>();
-        for (String team: teams){
-            model.addElement(team);
-        }
-        teamList.setModel(model);
+        updateTeamList();
+//        ArrayList<String> teams = new ArrayList<String>();
+//        try{
+//            teams = r.getTeams();
+//        } catch (Exception e){}
+//        DefaultListModel<String> model = new DefaultListModel<>();
+//        for (String team: teams){
+//            model.addElement(team);
+//        }
+//        teamList.setModel(model);
         
     }//GEN-LAST:event_refreshTeamsButtonActionPerformed
 
@@ -423,6 +427,17 @@ public class GUI extends javax.swing.JFrame {
         playerList.setModel(model);
     }//GEN-LAST:event_playersRefreshButtonActionPerformed
 
+    public void updateTeamList(){
+        ArrayList<String> teams = new ArrayList<String>();
+        try{
+            teams = r.getTeams();
+        } catch (Exception e){}
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String team: teams){
+            model.addElement(team);
+        }
+        teamList.setModel(model);
+    }
     /**
      * @param args the command line arguments
      */
