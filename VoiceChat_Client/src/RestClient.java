@@ -124,8 +124,23 @@ public class RestClient{
         conn.disconnect();
     }
     
-    public void removePlayerFromTeam() throws IOException, MalformedURLException{
+    public void removePlayerFromTeam(String teamName) throws IOException, MalformedURLException{
         URL url = new URL(this.url + "removePlayerFromTeam");
+        String input = "";
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        if (teamName.isEmpty()){
+            j.put("teamname", input);
+        } else{
+            j.put("teamname", teamName);
+        }
+        j.put("chId", chId);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
     }
     
     public void toggleMutePlayerBroadcast() throws IOException, MalformedURLException{

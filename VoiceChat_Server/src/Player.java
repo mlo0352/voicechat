@@ -11,6 +11,7 @@
 public class Player {
     private long chId;
     private String name;
+    private boolean inTeam = false;
     
     public Player(long chId, String name)
     {
@@ -32,5 +33,13 @@ public class Player {
     
     public void setChId(long chId){
         this.chId = chId;
+    }
+    
+    public boolean getInTeam(){
+        return inTeam;
+    }
+    
+    public void setInTeam(boolean status){
+        this.inTeam = status;
     }
 }

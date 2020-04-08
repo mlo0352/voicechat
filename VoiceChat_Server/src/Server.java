@@ -8,6 +8,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import org.teleal.cling.UpnpService;
@@ -68,7 +69,7 @@ public class Server {
         server.createContext("/getPlayersByTeam", new GetPlayersByTeamHandler(this));
         server.createContext("/setPlayerName", new SetPlayerNameHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
-        server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler());
+        server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler(this));
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
@@ -236,6 +237,7 @@ public class Server {
         for (Team t : teams){
             if (t.playerInTeam(playerName)){
                 t.removePlayer(playerName);
+                getPlayerByName(playerName).setInTeam(false); //set team status of main list to false
             }
         }
         
@@ -243,6 +245,24 @@ public class Server {
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
                 t.addPlayerToTeam(playerName, chId);
+                getPlayerByName(playerName).setInTeam(true); //set team status of main list to true
+            }
+        }
+    }
+    
+    public void removePlayerFromTeam(String teamname, long chId) {
+        //remove player from any existing team
+        String playerName = "";
+        for (Player player: players){
+            if (player.getChId() == chId){
+                playerName = player.getName();
+                break;
+            }
+        }
+        for (Team t : teams){
+            if (t.playerInTeam(playerName)){
+                t.removePlayer(playerName);
+                getPlayerByName(playerName).setInTeam(false); //set team status of main list to false
             }
         }
     }
@@ -250,7 +270,12 @@ public class Server {
     public ArrayList<Player> getPlayersByTeam(String teamName){
         ArrayList<Player> players = new ArrayList<Player>();
         if ("Lobby".equals(teamName)){
-            return this.players;
+            for (Player player : this.players){
+                if (!player.getInTeam()){
+                    players.add(player);
+                }
+            }
+            return players;
         }
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
@@ -273,4 +298,14 @@ public class Server {
     public int getAudioPort(){
         return audioPort;
     }
+    
+    public Player getPlayerByName(String name) throws NoSuchElementException{
+        for (Player player: players){
+            if (name.equals(player.getName())){
+                return player;
+            }
+        }
+        throw new NoSuchElementException(name + " is not in the list/");
+    }
+    
 }

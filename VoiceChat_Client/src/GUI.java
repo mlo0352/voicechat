@@ -102,7 +102,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         playersRefreshButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        leaveTeamButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -231,10 +231,10 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Leave Team");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        leaveTeamButton.setText("Leave Team");
+        leaveTeamButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                leaveTeamButtonActionPerformed(evt);
             }
         });
 
@@ -287,7 +287,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(joinTeamButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(refreshTeamsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                             .addComponent(playersRefreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(leaveTeamButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -345,7 +345,7 @@ public class GUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(joinTeamButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
+                                .addComponent(leaveTeamButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(refreshTeamsButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -445,14 +445,20 @@ public class GUI extends javax.swing.JFrame {
         updatePlayerList();
         if ("Lobby".equals(teamList.getSelectedValue())){
             joinTeamButton.setEnabled(false);
+            leaveTeamButton.setEnabled(false);
         } else {
             joinTeamButton.setEnabled(true);
+            leaveTeamButton.setEnabled(true);
         }
     }//GEN-LAST:event_teamListValueChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void leaveTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveTeamButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        try{
+            r.removePlayerFromTeam(teamList.getSelectedValue());
+            updatePlayerList();
+        } catch (Exception e) {System.out.println("RemovdPlayer: " + e);}
+    }//GEN-LAST:event_leaveTeamButtonActionPerformed
 
     public void updatePlayerList(){
         ArrayList<String> players = new ArrayList<String>();
@@ -525,7 +531,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton createTeamButton;
     private javax.swing.JTextField createTeamNameField;
     private javax.swing.JTextField ip;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -541,6 +546,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton joinTeamButton;
+    private javax.swing.JButton leaveTeamButton;
     private javax.swing.JProgressBar micLev;
     private javax.swing.JSlider micVol;
     private javax.swing.JList<String> playerList;
