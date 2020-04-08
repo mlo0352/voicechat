@@ -6,6 +6,7 @@ import javax.sound.sampled.TargetDataLine;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
+import java.lang.NullPointerException;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -106,6 +107,14 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         ip.setText("127.0.0.1");
 
@@ -460,6 +469,17 @@ public class GUI extends javax.swing.JFrame {
             updatePlayerList();
         } catch (Exception e) {System.out.println("RemovdPlayer: " + e);}
     }//GEN-LAST:event_leaveTeamButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // kill the connection
+        try{
+            //kill connection
+        } catch (Exception e){}
+    }//GEN-LAST:event_formWindowClosing
 
     public void updatePlayerList(){
         ArrayList<String> players = new ArrayList<String>();

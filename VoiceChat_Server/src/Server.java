@@ -181,6 +181,7 @@ public class Server {
                     } else { //we got something to broadcast
                         Message m = broadCastQueue.get(0);
                         for (ClientConnection cc : clients) { //broadcast the message
+                            //System.out.println(players);
                             if (cc.getChId() != m.getChId()) {
                                 cc.addToQueue(m);
                             }

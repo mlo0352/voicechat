@@ -71,6 +71,12 @@ public class Client extends Thread {
         }
     }
     
+    public void killSocket(){
+        try{
+            s.close();
+        } catch (IOException e) {System.out.println(e);}
+    }
+    
     public long getChId(){
         return this.chId;
     }
