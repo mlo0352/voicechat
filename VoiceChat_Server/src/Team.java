@@ -22,8 +22,17 @@ public class Team {
     private boolean muted = true;
     private ArrayList<Player> players = new ArrayList<Player>();
     
-    public void addPlayerToTeam(Player player){
+    public void addPlayer(Player player){
         this.addPlayerToTeam(player.getName(), player.getChId());
+    }
+    
+    public void removePlayer(String playerName){
+        for (Player player: players){
+            if (playerName.equals(player.getName())){
+                players.remove(player);
+                break;
+            }
+        }
     }
     
     public void addPlayerToTeam(String playerName, Long chId)
@@ -83,5 +92,14 @@ public class Team {
     public boolean toggleMute(){
         muted = !muted;
         return muted;
+    }
+    
+    public boolean playerInTeam(String playerName){
+        for (Player player : players){
+            if (playerName.equals(player.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 }

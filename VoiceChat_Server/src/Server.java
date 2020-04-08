@@ -225,12 +225,21 @@ public class Server {
     
     public void addPlayerToTeam(String teamName, long chId){
         String playerName = "";
+        //get the player name
         for (Player player: players){
             if (player.getChId() == chId){
                 playerName = player.getName();
                 break;
             }
         }
+        //remove player from any existing team
+        for (Team t : teams){
+            if (t.playerInTeam(playerName)){
+                t.removePlayer(playerName);
+            }
+        }
+        
+        //add player to correct team
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
                 t.addPlayerToTeam(playerName, chId);
