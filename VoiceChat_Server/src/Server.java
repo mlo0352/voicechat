@@ -36,6 +36,7 @@ public class Server {
     private int controlPort;
     private ArrayList<Team> teams = new ArrayList<Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
+    private Team lobby = new Team();
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
     
@@ -239,6 +240,9 @@ public class Server {
     
     public ArrayList<Player> getPlayersByTeam(String teamName){
         ArrayList<Player> players = new ArrayList<Player>();
+        if ("Lobby".equals(teamName)){
+            return this.players;
+        }
         for (Team t : teams){
             if (teamName.equals(t.getTeamName())){
                 players = t.getPlayers();

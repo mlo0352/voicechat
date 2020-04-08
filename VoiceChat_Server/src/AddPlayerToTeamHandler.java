@@ -39,7 +39,7 @@ public class AddPlayerToTeamHandler implements HttpHandler{
             exchange.close();
         } else {
             mainServer.addPlayerToTeam(teamName, chId);
-            exchange.sendResponseHeaders(201, 0);
+            exchange.sendResponseHeaders(200, 0);
             exchange.close();
         }
     }

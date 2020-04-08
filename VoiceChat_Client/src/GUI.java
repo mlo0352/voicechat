@@ -102,6 +102,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         playersRefreshButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -153,6 +154,11 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        teamList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                teamListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(teamList);
 
         createTeamButton.setText("Create Team");
@@ -177,6 +183,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        joinTeamButton.setBackground(new java.awt.Color(0, 153, 204));
         joinTeamButton.setText("Join Team");
         joinTeamButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +228,13 @@ public class GUI extends javax.swing.JFrame {
         playersRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playersRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Leave Team");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -272,7 +286,8 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(joinTeamButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(refreshTeamsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                            .addComponent(playersRefreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(playersRefreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -328,9 +343,11 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(refreshTeamsButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(joinTeamButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(refreshTeamsButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(playersRefreshButton))))
                     .addComponent(jScrollPane3))
@@ -368,10 +385,14 @@ public class GUI extends javax.swing.JFrame {
         micVol.setVisible(false);
         jLabel4.setVisible(false);
         jLabel2.setVisible(false);
-        System.out.println(c.getChId());
+        System.out.printf("Client Channel ID: %d\r\n", c.getChId());
         
         //initialize fields
         updateTeamList();
+        teamList.setSelectedIndex(0);
+        try{
+            r.setPlayerName(playerNameField.getText());
+        } catch (Exception e) {}
         //setSize(getWidth(),getHeight()-75);
     }//GEN-LAST:event_startActionPerformed
 
@@ -406,33 +427,53 @@ public class GUI extends javax.swing.JFrame {
     private void createTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamButtonActionPerformed
         try{
             r.createTeam(createTeamNameField.getText());
+            updateTeamList();
         } catch (Exception e){}    }//GEN-LAST:event_createTeamButtonActionPerformed
 
     private void joinTeamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinTeamButtonActionPerformed
         try{
             r.addPlayerToTeam(teamList.getSelectedValue());
-        } catch (Exception e) {}
+            this.updatePlayerList();
+        } catch (Exception e) {System.out.println("joinTeam: " + e);}
     }//GEN-LAST:event_joinTeamButtonActionPerformed
 
     private void playersRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playersRefreshButtonActionPerformed
+        updatePlayerList();
+    }//GEN-LAST:event_playersRefreshButtonActionPerformed
+
+    private void teamListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_teamListValueChanged
+        updatePlayerList();
+        if ("Lobby".equals(teamList.getSelectedValue())){
+            joinTeamButton.setEnabled(false);
+        } else {
+            joinTeamButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_teamListValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void updatePlayerList(){
         ArrayList<String> players = new ArrayList<String>();
         String t = teamList.getSelectedValue();
         try{
             players = r.getPlayersOnTeam(t);
-        } catch (Exception e) {System.out.println(e.toString());}
+        } catch (Exception e) {System.out.println("UpdatePlayerList: " + e);}
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String player: players){
             model.addElement(player);
         }
         playerList.setModel(model);
-    }//GEN-LAST:event_playersRefreshButtonActionPerformed
-
+    }
+    
     public void updateTeamList(){
         ArrayList<String> teams = new ArrayList<String>();
         try{
             teams = r.getTeams();
-        } catch (Exception e){}
+        } catch (Exception e){System.out.println("UpdateTeamList: " + e);}
         DefaultListModel<String> model = new DefaultListModel<>();
+        model.addElement("Lobby");
         for (String team: teams){
             model.addElement(team);
         }
@@ -484,6 +525,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton createTeamButton;
     private javax.swing.JTextField createTeamNameField;
     private javax.swing.JTextField ip;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;

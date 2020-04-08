@@ -22,6 +22,10 @@ public class Team {
     private boolean muted = true;
     private ArrayList<Player> players = new ArrayList<Player>();
     
+    public void addPlayerToTeam(Player player){
+        this.addPlayerToTeam(player.getName(), player.getChId());
+    }
+    
     public void addPlayerToTeam(String playerName, Long chId)
     {
         players.add(new Player(chId, playerName));
