@@ -388,6 +388,7 @@ public class GUI extends javax.swing.JFrame {
         ip.setEnabled(false);
         port.setEnabled(false);
         start.setEnabled(false);
+        System.out.println(getComponents());
         micLev.setVisible(false);
         jLabel1.setEnabled(false);
         jLabel3.setVisible(false);
@@ -478,7 +479,8 @@ public class GUI extends javax.swing.JFrame {
         // kill the connection
         try{
             //kill connection
-        } catch (Exception e){}
+            r.killPlayer();
+        } catch (Exception e){System.out.println("killPlayer: " + e);}
     }//GEN-LAST:event_formWindowClosing
 
     public void updatePlayerList(){
