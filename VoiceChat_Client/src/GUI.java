@@ -413,7 +413,7 @@ public class GUI extends javax.swing.JFrame {
         try {
             r.setPlayerName(playerNameField.getText());
             updatePlayerList();
-        } catch (Exception e) {}        
+        } catch (Exception e) {System.out.println("setPlayerName: " + e);}        
     }//GEN-LAST:event_setPlayerNameButtonActionPerformed
 
     private void createTeamNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamNameFieldActionPerformed
