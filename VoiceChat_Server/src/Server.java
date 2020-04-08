@@ -70,6 +70,7 @@ public class Server {
         server.createContext("/setPlayerName", new SetPlayerNameHandler(this));
         server.createContext("/addPlayerToTeam", new AddPlayerToTeamHandler(this));
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler(this));
+        server.createContext("/killPlayer", new KillPlayerHandler(this));
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
@@ -306,7 +307,27 @@ public class Server {
                 return player;
             }
         }
-        throw new NoSuchElementException(name + " is not in the list/");
+        throw new NoSuchElementException(name + " is not in the list.");
+    }
+    
+    public Player getPlayerByChId(long chId) throws NoSuchElementException{
+        for (Player player: players){
+            if (player.getChId() == chId){
+                return player;
+            }
+        }
+        throw new NoSuchElementException(chId + " is not in the list.");
+    }
+    
+    public void killPlayer(long chId){
+            for (Team t : teams){
+                if (t.playerInTeam(chId)){
+                    t.removePlayer(chId);
+                    getPlayerByChId(chId).setInTeam(false); //set team status of main list to false
+            }
+        }
+        Player p = getPlayerByChId(chId);
+        players.remove(p);
     }
     
 }

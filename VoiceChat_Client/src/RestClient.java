@@ -151,6 +151,20 @@ public class RestClient{
         URL url = new URL(this.url + "toggleMuteTeamBroadcast");
     }
     
+    public void killPlayer() throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "removePlayerFromTeam");
+        String input = "";
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("chId", chId);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
     public OutputStream getOSAndVerifyResponseCode(HttpURLConnection conn, int httpCode, String input) throws IOException{
         OutputStream os = conn.getOutputStream();
         os.write(input.getBytes());

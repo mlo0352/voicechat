@@ -35,6 +35,15 @@ public class Team {
         }
     }
     
+    public void removePlayer(long chId){
+        for (Player player: players){
+            if (chId == player.getChId()){
+                players.remove(player);
+                break;
+            }
+        }
+    }
+    
     public void addPlayerToTeam(String playerName, Long chId)
     {
         players.add(new Player(chId, playerName));
@@ -97,6 +106,15 @@ public class Team {
     public boolean playerInTeam(String playerName){
         for (Player player : players){
             if (playerName.equals(player.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean playerInTeam(long chId){
+        for (Player player : players){
+            if (chId == player.getChId()){
                 return true;
             }
         }
