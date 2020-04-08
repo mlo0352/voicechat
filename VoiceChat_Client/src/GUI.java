@@ -389,10 +389,10 @@ public class GUI extends javax.swing.JFrame {
         
         //initialize fields
         updateTeamList();
-        teamList.setSelectedIndex(0);
         try{
             r.setPlayerName(playerNameField.getText());
         } catch (Exception e) {}
+        teamList.setSelectedIndex(0);
         //setSize(getWidth(),getHeight()-75);
     }//GEN-LAST:event_startActionPerformed
 
@@ -403,6 +403,7 @@ public class GUI extends javax.swing.JFrame {
     private void setPlayerNameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPlayerNameButtonActionPerformed
         try {
             r.setPlayerName(playerNameField.getText());
+            updatePlayerList();
         } catch (Exception e) {}        
     }//GEN-LAST:event_setPlayerNameButtonActionPerformed
 
