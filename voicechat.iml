@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/VoiceChat_Client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/VoiceChat_Comm/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/VoiceChat_Server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/VoiceChat_Client/lib" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/VoiceChat_Server/lib" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/src" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="json-20190722" level="project" />
+    <orderEntry type="library" name="teleal-common-1.0.13" level="project" />
+    <orderEntry type="library" name="cling-support-1.0.5" level="project" />
+    <orderEntry type="library" name="cling-core-1.0.5" level="project" />
+    <orderEntry type="library" name="google-collections-1.0" level="project" />
+  </component>
+</module>
