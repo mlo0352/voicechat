@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FormLayout">
     <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="top:4dlu:noGrow"/>
@@ -33,6 +33,8 @@
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="center:d:grow"/>
     <rowspec value="top:67dlu:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="center:d:grow"/>
     <colspec value="fill:8px:grow"/>
     <colspec value="left:4dlu:noGrow"/>
@@ -50,23 +52,25 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="7fb39" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
+      <component id="7fb39" class="javax.swing.JProgressBar" binding="micLev">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms defaultalign-horz="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="5212" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="5212" class="javax.swing.JTextField" binding="port">
         <constraints>
           <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
-      <component id="a94c8" class="javax.swing.JSlider" binding="slider1" default-binding="true">
+      <component id="a94c8" class="javax.swing.JSlider" binding="micVol">
         <constraints>
           <grid row="8" column="2" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <forms defaultalign-horz="false"/>
@@ -82,7 +86,7 @@
           <text value="If the mic level doesn't move as you speak, the volume is too low"/>
         </properties>
       </component>
-      <component id="8e8f0" class="javax.swing.JCheckBox" binding="checkBox1" default-binding="true">
+      <component id="8e8f0" class="javax.swing.JCheckBox" binding="jCheckBox1">
         <constraints>
           <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -91,7 +95,7 @@
           <text value="Mute Yourself"/>
         </properties>
       </component>
-      <component id="85268" class="javax.swing.JCheckBox" binding="checkBox2" default-binding="true">
+      <component id="85268" class="javax.swing.JCheckBox" binding="muteTeamCheckBox">
         <constraints>
           <grid row="12" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
           <forms defaultalign-horz="false"/>
@@ -109,7 +113,7 @@
           <text value="Don't use this if you aren't the Team Captain"/>
         </properties>
       </component>
-      <component id="f6547" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+      <component id="f6547" class="javax.swing.JTextField" binding="playerNameField">
         <constraints>
           <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -118,7 +122,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="9c157" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+      <component id="9c157" class="javax.swing.JTextField" binding="createTeamNameField">
         <constraints>
           <grid row="18" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -127,7 +131,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="eafac" class="javax.swing.JList" binding="list1" default-binding="true">
+      <component id="eafac" class="javax.swing.JList" binding="teamList">
         <constraints>
           <grid row="22" column="2" row-span="7" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -136,7 +140,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="8d284" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="8d284" class="javax.swing.JButton" binding="setPlayerNameButton">
         <constraints>
           <grid row="16" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -145,7 +149,7 @@
           <text value="Set Player Name"/>
         </properties>
       </component>
-      <component id="97217" class="javax.swing.JButton" binding="button2" default-binding="true">
+      <component id="97217" class="javax.swing.JButton" binding="start">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="6" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -154,7 +158,7 @@
           <text value="Connect"/>
         </properties>
       </component>
-      <component id="2f0a9" class="javax.swing.JList" binding="list2" default-binding="true">
+      <component id="2f0a9" class="javax.swing.JList" binding="playerList">
         <constraints>
           <grid row="18" column="7" row-span="11" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -172,7 +176,7 @@
           <text value="Teams"/>
         </properties>
       </component>
-      <component id="506f1" class="javax.swing.JButton" binding="button3" default-binding="true">
+      <component id="506f1" class="javax.swing.JButton" binding="createTeamButton">
         <constraints>
           <grid row="18" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -181,7 +185,7 @@
           <text value="Create Team"/>
         </properties>
       </component>
-      <component id="4bf4" class="javax.swing.JButton" binding="button5" default-binding="true">
+      <component id="4bf4" class="javax.swing.JButton" binding="joinTeamButton">
         <constraints>
           <grid row="22" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -190,7 +194,7 @@
           <text value="Join Team"/>
         </properties>
       </component>
-      <component id="d1096" class="javax.swing.JButton" binding="button6" default-binding="true">
+      <component id="d1096" class="javax.swing.JButton" binding="leaveTeamButton">
         <constraints>
           <grid row="24" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -199,7 +203,7 @@
           <text value="Leave Team"/>
         </properties>
       </component>
-      <component id="b7ed" class="javax.swing.JButton" binding="button7" default-binding="true">
+      <component id="b7ed" class="javax.swing.JButton" binding="refreshTeamsButton">
         <constraints>
           <grid row="26" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -208,7 +212,7 @@
           <text value="Refresh Teams"/>
         </properties>
       </component>
-      <component id="dffb0" class="javax.swing.JButton" binding="button8" default-binding="true">
+      <component id="dffb0" class="javax.swing.JButton" binding="playersRefreshButton">
         <constraints>
           <grid row="28" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms/>
@@ -217,9 +221,9 @@
           <text value="Refresh Players"/>
         </properties>
       </component>
-      <component id="39fe5" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+      <component id="39fe5" class="javax.swing.JTextArea" binding="jTextArea1">
         <constraints>
-          <grid row="30" column="2" row-span="2" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="30" column="2" row-span="4" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
           <forms defaultalign-horz="false" defaultalign-vert="false"/>
@@ -244,7 +248,7 @@
           <text value="Server IP"/>
         </properties>
       </component>
-      <component id="404dd" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="404dd" class="javax.swing.JTextField" binding="ip">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -264,11 +268,11 @@
       </component>
       <vspacer id="492b2">
         <constraints>
-          <grid row="32" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="34" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
           <forms defaultalign-vert="false"/>
         </constraints>
       </vspacer>
-      <component id="eed97" class="javax.swing.JButton" binding="button4" default-binding="true">
+      <component id="eed97" class="javax.swing.JButton" binding="jButton4">
         <constraints>
           <grid row="31" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <forms defaultalign-vert="false"/>
@@ -289,6 +293,15 @@
           <forms defaultalign-horz="false"/>
         </constraints>
       </hspacer>
+      <component id="ce088" class="javax.swing.JButton" binding="disconnectButton" default-binding="true">
+        <constraints>
+          <grid row="33" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Disconnect"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
