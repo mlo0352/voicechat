@@ -443,15 +443,6 @@ public class GUI extends javax.swing.JFrame {
 
     private void refreshTeamsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTeamsButtonActionPerformed
         updateTeamList();
-//        ArrayList<String> teams = new ArrayList<String>();
-//        try{
-//            teams = r.getTeams();
-//        } catch (Exception e){}
-//        DefaultListModel<String> model = new DefaultListModel<>();
-//        for (String team: teams){
-//            model.addElement(team);
-//        }
-//        teamList.setModel(model);
         
     }//GEN-LAST:event_refreshTeamsButtonActionPerformed
 
@@ -498,14 +489,12 @@ public class GUI extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // kill the connection
         try{
-            //kill connection
             r.killPlayer();
         } catch (Exception e){System.out.println("killPlayer: " + e);}
     }//GEN-LAST:event_formWindowClosing
 
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
         try{
-            //kill connection
             r.killPlayer();
         } catch (Exception e){System.out.println("Disconnect: " + e);}
     }//GEN-LAST:event_disconnectButtonActionPerformed
