@@ -104,7 +104,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         playersRefreshButton = new javax.swing.JButton();
         leaveTeamButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        disconnectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -248,10 +248,12 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        disconnectButton.setBackground(new java.awt.Color(153, 0, 0));
+        disconnectButton.setText("Disconnect");
+        disconnectButton.setEnabled(false);
+        disconnectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                disconnectButtonActionPerformed(evt);
             }
         });
 
@@ -322,7 +324,7 @@ public class GUI extends javax.swing.JFrame {
                                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(60, 60, 60)
-                                        .addComponent(jButton1))))))))
+                                        .addComponent(disconnectButton))))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,7 +387,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))))
+                        .addComponent(disconnectButton))))
         );
 
         pack();
@@ -412,6 +414,7 @@ public class GUI extends javax.swing.JFrame {
         micVol.setVisible(false);
         jLabel4.setVisible(false);
         jLabel2.setVisible(false);
+        disconnectButton.setEnabled(true);
         System.out.printf("Client Channel ID: %d\r\n", c.getChId());
         
         //initialize fields
@@ -500,9 +503,12 @@ public class GUI extends javax.swing.JFrame {
         } catch (Exception e){System.out.println("killPlayer: " + e);}
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
+        try{
+            //kill connection
+            r.killPlayer();
+        } catch (Exception e){System.out.println("Disconnect: " + e);}
+    }//GEN-LAST:event_disconnectButtonActionPerformed
 
     public void updatePlayerList(){
         ArrayList<String> players = new ArrayList<String>();
@@ -574,8 +580,8 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createTeamButton;
     private javax.swing.JTextField createTeamNameField;
+    private javax.swing.JButton disconnectButton;
     private javax.swing.JTextField ip;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
