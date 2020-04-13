@@ -29,6 +29,10 @@ public class QMGUI extends javax.swing.JFrame {
     
     public void setUp(){
         updateTeamList();
+        this.roundSelectorComboBox.setSelectedIndex(0);
+        try{
+            updateRoundSelectorComboBox(Integer.valueOf(r.getRoundNumber()));
+        } catch (Exception e) {System.out.println("Get Round Number: " + e);};
     }
     
     public void setRC(RestClient r){
@@ -56,6 +60,15 @@ public class QMGUI extends javax.swing.JFrame {
         return selectedRound;
     }
     
+    public void updateScoreLabels(){
+        try {
+            roundScoreLabel.setText(r.getSelectedRoundScoreForTeam(getSelectedRound(), teamList.getSelectedValue()));
+        } catch (Exception e) {System.out.println("Update Round Score Label: " + e);}
+        try {
+            this.totalScoreLabel.setText(r.getTotalScoreForTeam(teamList.getSelectedValue()));
+        } catch (Exception e) {System.out.println("Update Total Score Label: " + e);}
+    }
+    
     public String getSelectedRoundAnswers(){
         String selectedRound = getSelectedRound();
         String teamName = teamList.getSelectedValue();
@@ -67,6 +80,17 @@ public class QMGUI extends javax.swing.JFrame {
         answersPane.setText(answers);
         
         return answers;
+    }
+    
+    public void updateRoundSelectorComboBox(Integer count){
+        int selection = roundSelectorComboBox.getSelectedIndex();
+        roundSelectorComboBox.removeAllItems();
+        ArrayList<Integer> range = new ArrayList<Integer>();
+        for (int i=1; i<=count; i++) {
+            range.add(i);
+        }
+        roundSelectorComboBox.setModel(new DefaultComboBoxModel(range.toArray()));
+        roundSelectorComboBox.setSelectedIndex(selection);
     }
 
     /**
@@ -94,6 +118,7 @@ public class QMGUI extends javax.swing.JFrame {
         totalScoreLabel = new javax.swing.JLabel();
         quitQuizzoMasterRole = new javax.swing.JButton();
         teamNameLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -140,25 +165,31 @@ public class QMGUI extends javax.swing.JFrame {
         jScrollPane2.setEnabled(false);
         jScrollPane2.setViewportView(answersPane);
 
-        scoreUpdateField.setText("jTextField1");
-
         submitScore.setText("Submit Score");
+        submitScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitScoreActionPerformed(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Round Score");
 
         roundScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        roundScoreLabel.setText("jLabel2");
+        roundScoreLabel.setText("0");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Total Score");
 
         totalScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        totalScoreLabel.setText("jLabel4");
+        totalScoreLabel.setText("0");
 
         quitQuizzoMasterRole.setText("Quit Master Role");
 
         teamNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Score to Submit");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,25 +216,31 @@ public class QMGUI extends javax.swing.JFrame {
                                 .addComponent(teamNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(submitScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(scoreUpdateField)
-                            .addComponent(roundScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(totalScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(submitScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(scoreUpdateField)
+                                    .addComponent(roundScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(totalScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(refreshTeamsButton)
-                    .addComponent(refreshAnswersButton)
-                    .addComponent(startNewRoundButton)
-                    .addComponent(quitQuizzoMasterRole))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(refreshTeamsButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(refreshAnswersButton)
+                        .addComponent(startNewRoundButton)
+                        .addComponent(quitQuizzoMasterRole)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -222,7 +259,9 @@ public class QMGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(totalScoreLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 266, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(scoreUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(submitScore)))))
@@ -250,6 +289,9 @@ public class QMGUI extends javax.swing.JFrame {
         //get answers for selected round
         getSelectedRoundAnswers();
         
+        //update selected scores
+        updateScoreLabels();
+        
     }//GEN-LAST:event_teamListValueChanged
 
     private void refreshAnswersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshAnswersButtonActionPerformed
@@ -262,15 +304,7 @@ public class QMGUI extends javax.swing.JFrame {
         //Create New Round
         try {
             r.setNewRound();
-            int count = roundSelectorComboBox.getItemCount();
-            int selection = roundSelectorComboBox.getSelectedIndex();
-            roundSelectorComboBox.removeAllItems();
-            ArrayList<Integer> range = new ArrayList<Integer>();
-            for (int i=1; i<=count+1; i++) {
-                range.add(i);
-            }
-            roundSelectorComboBox.setModel(new DefaultComboBoxModel(range.toArray()));
-            roundSelectorComboBox.setSelectedIndex(selection);
+            updateRoundSelectorComboBox(roundSelectorComboBox.getItemCount()+1);
         } catch (Exception e) {System.out.println("StartNewRound: " + e);}
     }//GEN-LAST:event_startNewRoundButtonActionPerformed
 
@@ -279,6 +313,14 @@ public class QMGUI extends javax.swing.JFrame {
         System.out.println(getSelectedRound());
         getSelectedRoundAnswers();
     }//GEN-LAST:event_roundSelectorComboBoxItemStateChanged
+
+    private void submitScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitScoreActionPerformed
+        // TODO add your handling code here:
+        try {
+            r.setSelectedRoundScoreForTeam(getSelectedRound(), teamList.getSelectedValue(), scoreUpdateField.getText());
+            updateScoreLabels();
+        } catch (Exception e) {System.out.println("Submit Score For Round: " + e);}
+    }//GEN-LAST:event_submitScoreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,6 +360,7 @@ public class QMGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane answersPane;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

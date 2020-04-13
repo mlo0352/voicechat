@@ -24,6 +24,7 @@ public class Team {
     private ArrayList<Player> players = new ArrayList<Player>();
     private HashMap<Integer, String> answers = new HashMap<Integer, String>();
     private Player captain = null;
+    private HashMap<Integer, Integer> scores = new HashMap<Integer, Integer>();
     
     public void addPlayer(Player player){
         this.addPlayerToTeam(player.getName(), player.getChId());
@@ -144,5 +145,24 @@ public class Team {
     
     public void removeCaptain(){
         captain = null;
+    }
+    
+    public void setRoundScore(Integer roundNumber, Integer score){
+        scores.put(roundNumber, score);
+        this.score = sumScores();
+    }
+    
+    public int getRoundScore(Integer roundNumber){
+        try{
+            return scores.get(roundNumber);
+        } catch (Exception e){ return 0;}
+    }
+    
+    private int sumScores(){
+        int total = 0;
+        for (int key: scores.keySet()) {
+            total += scores.get(key);
+        }
+        return total;
     }
 }

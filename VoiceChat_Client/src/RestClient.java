@@ -243,6 +243,55 @@ public class RestClient{
         return response;
     }
     
+    public void setSelectedRoundScoreForTeam(String selectedRound, String teamName, String score) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "setSelectedRoundScoreForTeam");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("selectedRound", selectedRound);
+        j.put("teamName", teamName);
+        j.put("score", score);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
+    public String getSelectedRoundScoreForTeam(String selectedRound, String teamName) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "getSelectedRoundScoreForTeam");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("selectedRound", selectedRound);
+        j.put("teamName", teamName);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+        conn.disconnect();
+        String response = responseJson.getString("score");
+        return response;
+    }
+    
+    public String getTotalScoreForTeam(String teamName) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "getTotalScoreForTeam");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("teamName", teamName);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+        conn.disconnect();
+        String response = responseJson.getString("score");
+        return response;
+    
+    }
+    
     public void setAnswersForTeam(String answers) throws IOException, MalformedURLException{
         URL url = new URL(this.url + "setAnswersForTeam");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -266,6 +315,22 @@ public class RestClient{
         String j = "";
         this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
         conn.disconnect();
+    }
+    
+    
+    public String getRoundNumber() throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "getRoundNumber");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        String j="";
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+        conn.disconnect();
+        String response = responseJson.getString("roundNumber");
+        return response;
     }
     
     public OutputStream getOSAndVerifyResponseCode(HttpURLConnection conn, int httpCode, String input) throws IOException{

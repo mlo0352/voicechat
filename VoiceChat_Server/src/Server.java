@@ -79,8 +79,12 @@ public class Server {
         server.createContext("/elevatePlayerToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
         server.createContext("/elevatePlayerToTeamCaptain", new ElevateToTeamCaptainHandler(this));
         server.createContext("/getSelectedRoundAnswersForTeam", new GetSelectedRoundAnswersForTeamHandler(this));
+        server.createContext("/getSelectedRoundScoreForTeam", new GetSelectedRoundScoreForTeamHandler(this)); //
+        server.createContext("/setSelectedRoundScoreForTeam", new SetSelectedRoundScoreForTeamHandler(this)); //
+        server.createContext("/getTotalScoreForTeam", new GetTotalScoreForTeamHandler(this)); //
         server.createContext("/setAnswersForTeam", new SetAnswersForTeamHandler(this));
         server.createContext("/setNewRound", new SetNewRoundHandler(this));
+        server.createContext("/getRoundNumber", new GetRoundsHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -418,6 +422,10 @@ public class Server {
         currentRound++;
     }
     
+    public int getRoundNumber(){
+        return currentRound;
+    }
+    
     public Player getTeamCaptain(long chId){
         return getTeamByPlayerChId(chId).getCaptain();
     }
@@ -439,6 +447,18 @@ public class Server {
             }
         }
         return null;
+    }
+    
+    public void setSelectedRoundScoreForTeam(int selectedRound, String teamName, int score){
+        getTeamByTeamName(teamName).setRoundScore(selectedRound, score);
+    }
+    
+    public int getSelectedRoundScoreForTeam(int selectedRound, String teamName){
+        return getTeamByTeamName(teamName).getRoundScore(selectedRound);
+    }
+    
+    public int getTotalScoreForTeam(String teamName){
+        return getTeamByTeamName(teamName).getScore();
     }
     
     public ClientConnection getClientConnectionByChId(long chId) throws Exception{
