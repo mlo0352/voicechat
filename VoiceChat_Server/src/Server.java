@@ -377,6 +377,7 @@ public class Server {
         //remove the player from their team if they become quizzo master
         if (this.getPlayerByChId(chId).getInTeam()){
             this.removePlayerFromTeam(this.getTeamByPlayerChId(chId).getTeamName(), chId);
+            getPlayerByChId(chId).setInTeam(false);
         }
         //If master already exists, return false
         if (quizzoMaster == null){
