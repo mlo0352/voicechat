@@ -73,7 +73,8 @@ public class Server {
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler(this));
         server.createContext("/killPlayer", new KillPlayerHandler(this));
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
-        server.createContext("/elevateToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
+        server.createContext("/getQuizzoMaster", new GetQuizzoMasterHandler(this));
+        server.createContext("/elevatePlayerToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -350,17 +351,26 @@ public class Server {
         }
         Player p = getPlayerByChId(chId);
         players.remove(p);
+        
+        //TODO: remove quizzo master if master is killed
+        if (quizzoMaster.getChId() == chId) {
+            quizzoMaster = null;
+        }
     }
     
     public boolean elevateToQuizzoMaster(long chId){
         //If master already exists, return false
-        if (quizzoMaster != null){
+        if (quizzoMaster == null){
             quizzoMaster = getPlayerByChId(chId);
             return true;
         } else {
             //Else set master to player and return true
             return false;
         }
+    }
+    
+    public Player getQuizzoMaster(){
+        return quizzoMaster;
     }
     
     public ClientConnection getClientConnectionByChId(long chId) throws Exception{

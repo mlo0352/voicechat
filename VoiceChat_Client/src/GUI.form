@@ -93,9 +93,9 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="elevateToTeamCaptainButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="elevateToQuizzoMasterButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
@@ -162,8 +162,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="playerNameField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="setPlayerNameButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="elevateToTeamCaptainButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="elevateToQuizzoMasterButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -340,7 +340,8 @@
     <Component class="javax.swing.JCheckBox" name="jCheckBox2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Mute Team"/>
-        <Property name="toolTipText" type="java.lang.String" value="Mutes Entire Team"/>
+        <Property name="toolTipText" type="java.lang.String" value="Mute Entire Team"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -370,6 +371,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Send Answer"/>
         <Property name="toolTipText" type="java.lang.String" value="Submit Answers to Quizzo Master (Only for Team Captain)"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="refreshTeamsButton">
@@ -442,24 +444,25 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disconnectButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="elevateToTeamCaptainButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Team Captain"/>
         <Property name="toolTipText" type="java.lang.String" value="Click To Become Team Captain"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="elevateToTeamCaptainButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="elevateToQuizzoMasterButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Quizzo Master"/>
         <Property name="toolTipText" type="java.lang.String" value="Click To Become Quizzo Master"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="elevateToQuizzoMasterButtonMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="elevateToQuizzoMasterButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

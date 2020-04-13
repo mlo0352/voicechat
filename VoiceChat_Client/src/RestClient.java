@@ -164,6 +164,24 @@ public class RestClient{
         conn.disconnect();
     }
     
+    public String getQuizzoMaster()  throws IOException, MalformedURLException {
+        URL url = new URL(this.url + "getQuizzoMaster");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        try {
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("ChId", this.chId);
+            String j = "";
+            JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+            conn.disconnect();
+            Object quizzoMaster = responseJson.get("quizzoMaster");
+            return quizzoMaster.toString();
+        } catch (java.io.FileNotFoundException e) {
+            return null;
+        }
+    }
+    
     public void elevatePlayerToQuizzoMaster() throws IOException, MalformedURLException{
         //implement
         URL url = new URL(this.url + "elevatePlayerToQuizzoMaster");
