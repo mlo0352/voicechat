@@ -75,9 +75,11 @@ public class Server {
         server.createContext("/killPlayer", new KillPlayerHandler(this));
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
         server.createContext("/getQuizzoMaster", new GetQuizzoMasterHandler(this));
+        server.createContext("/getTeamCaptain", new GetTeamCaptainHandler(this));
         server.createContext("/elevatePlayerToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
+        server.createContext("/elevatePlayerToTeamCaptain", new ElevateToTeamCaptainHandler(this));
         server.createContext("/getSelectedRoundAnswersForTeam", new GetSelectedRoundAnswersForTeamHandler(this));
-        server.createContext("/setAnswersForTeam", new SetSelectedRoundAnswersForTeamHandler(this));
+        server.createContext("/setAnswersForTeam", new SetAnswersForTeamHandler(this));
         server.createContext("/setNewRound", new SetNewRoundHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
@@ -291,6 +293,10 @@ public class Server {
         for (Team t : teams){
             if (t.playerInTeam(playerName)){
                 t.removePlayer(playerName);
+                //remove the team captain if player is captain
+                if (playerName.equals(t.getCaptain().getName())){
+                    t.removeCaptain();
+                }
                 getPlayerByName(playerName).setInTeam(false); //set team status of main list to false
             }
         }
@@ -350,6 +356,9 @@ public class Server {
         for (Team t : teams){
                 if (t.playerInTeam(chId)){
                     t.removePlayer(chId);
+                    if (chId == t.getCaptain().getChId()){
+                        t.removeCaptain();
+                    }
                     getPlayerByChId(chId).setInTeam(false); //set team status of main list to false
             }
         }
@@ -365,12 +374,29 @@ public class Server {
     }
     
     public boolean elevateToQuizzoMaster(long chId){
+        //remove the player from their team if they become quizzo master
+        if (this.getPlayerByChId(chId).getInTeam()){
+            this.removePlayerFromTeam(this.getTeamByPlayerChId(chId).getTeamName(), chId);
+        }
         //If master already exists, return false
         if (quizzoMaster == null){
             quizzoMaster = getPlayerByChId(chId);
             return true;
         } else {
             //Else set master to player and return true
+            return false;
+        }
+    }
+    
+    public boolean elevateToTeamCaptain(long chId){
+        Team t = this.getTeamByPlayerChId(chId);
+        if (t == null) {
+            return false;
+        }
+        if (t.getCaptain() == null){
+            t.setCaptain(getPlayerByChId(chId));
+            return true;
+        } else {
             return false;
         }
     }
@@ -389,6 +415,10 @@ public class Server {
     
     public void increaseRound(){
         currentRound++;
+    }
+    
+    public Player getTeamCaptain(long chId){
+        return getTeamByPlayerChId(chId).getCaptain();
     }
     
     public Team getTeamByPlayerChId(long chId){

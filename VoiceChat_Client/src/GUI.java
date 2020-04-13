@@ -95,8 +95,8 @@ public class GUI extends javax.swing.JFrame {
         jCheckBox2 = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton4 = new javax.swing.JButton();
+        answersArea = new javax.swing.JTextArea();
+        sendAnswerButton = new javax.swing.JButton();
         refreshTeamsButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         playerList = new javax.swing.JList<>();
@@ -218,14 +218,19 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel5.setText("Don't use this unlss you're the team captain ");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        answersArea.setColumns(20);
+        answersArea.setRows(5);
+        jScrollPane2.setViewportView(answersArea);
 
-        jButton4.setBackground(new java.awt.Color(102, 153, 0));
-        jButton4.setText("Send Answer");
-        jButton4.setToolTipText("Submit Answers to Quizzo Master (Only for Team Captain)");
-        jButton4.setEnabled(false);
+        sendAnswerButton.setBackground(new java.awt.Color(102, 153, 0));
+        sendAnswerButton.setText("Send Answer");
+        sendAnswerButton.setToolTipText("Submit Answers to Quizzo Master (Only for Team Captain)");
+        sendAnswerButton.setEnabled(false);
+        sendAnswerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendAnswerButtonActionPerformed(evt);
+            }
+        });
 
         refreshTeamsButton.setText("Refresh Teams");
         refreshTeamsButton.setToolTipText("Refresh the Teams List");
@@ -276,6 +281,11 @@ public class GUI extends javax.swing.JFrame {
         elevateToTeamCaptainButton.setText("Team Captain");
         elevateToTeamCaptainButton.setToolTipText("Click To Become Team Captain");
         elevateToTeamCaptainButton.setEnabled(false);
+        elevateToTeamCaptainButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                elevateToTeamCaptainButtonMouseClicked(evt);
+            }
+        });
         elevateToTeamCaptainButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 elevateToTeamCaptainButtonActionPerformed(evt);
@@ -367,7 +377,7 @@ public class GUI extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(sendAnswerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(60, 60, 60)
                                         .addComponent(disconnectButton))))))))
@@ -432,7 +442,7 @@ public class GUI extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sendAnswerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(disconnectButton))))
         );
@@ -510,6 +520,12 @@ public class GUI extends javax.swing.JFrame {
         try{
             r.addPlayerToTeam(teamList.getSelectedValue());
             this.updatePlayerList();
+            //determine if Elevate To Team Captain Button is enabled
+            try{
+                if (r.getTeamCaptain() == null) {
+                    elevateToTeamCaptainButton.setEnabled(true);
+                }
+            } catch (Exception e) {System.out.println("Get Team Captain: " + e);}
         } catch (Exception e) {System.out.println("joinTeam: " + e);}
     }//GEN-LAST:event_joinTeamButtonActionPerformed
 
@@ -533,6 +549,7 @@ public class GUI extends javax.swing.JFrame {
         try{
             r.removePlayerFromTeam(teamList.getSelectedValue());
             updatePlayerList();
+            sendAnswerButton.setEnabled(false);
         } catch (Exception e) {System.out.println("RemovdPlayer: " + e);}
     }//GEN-LAST:event_leaveTeamButtonActionPerformed
 
@@ -555,12 +572,19 @@ public class GUI extends javax.swing.JFrame {
 
     private void elevateToTeamCaptainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elevateToTeamCaptainButtonActionPerformed
         // TODO add your handling code here:
+        try{
+            r.elevatePlayerToTeamCaptain();
+            elevateToTeamCaptainButton.setEnabled(false); 
+            sendAnswerButton.setEnabled(true);
+            
+        } catch (Exception e) {System.out.println("Elevate To Team Captain: " + e);}
     }//GEN-LAST:event_elevateToTeamCaptainButtonActionPerformed
 
     private void elevateToQuizzoMasterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elevateToQuizzoMasterButtonActionPerformed
         try{
             r.elevatePlayerToQuizzoMaster();
             elevateToQuizzoMasterButton.setEnabled(false);
+            sendAnswerButton.setEnabled(false);
             QMGUI q = new QMGUI();
             q.setRC(r);
             q.setUp();
@@ -576,6 +600,21 @@ public class GUI extends javax.swing.JFrame {
             } catch (Exception e) {System.out.println("Get Quizzo Master: " + e);}
         }
     }//GEN-LAST:event_elevateToQuizzoMasterButtonMouseClicked
+
+    private void sendAnswerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendAnswerButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            r.setAnswersForTeam(answersArea.getText());
+        } catch (Exception e) {System.out.println("Send Answers: " + e);}
+    }//GEN-LAST:event_sendAnswerButtonActionPerformed
+
+    private void elevateToTeamCaptainButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_elevateToTeamCaptainButtonMouseClicked
+        if (!elevateToTeamCaptainButton.isEnabled()){
+            try{
+                r.getTeamCaptain();
+            } catch (Exception e) {System.out.println("Get Team Captain: " + e);}
+        }
+    }//GEN-LAST:event_elevateToTeamCaptainButtonMouseClicked
 
     public void updatePlayerList(){
         ArrayList<String> players = new ArrayList<String>();
@@ -645,13 +684,13 @@ public class GUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea answersArea;
     private javax.swing.JButton createTeamButton;
     private javax.swing.JTextField createTeamNameField;
     private javax.swing.JButton disconnectButton;
     private javax.swing.JButton elevateToQuizzoMasterButton;
     private javax.swing.JButton elevateToTeamCaptainButton;
     private javax.swing.JTextField ip;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
@@ -664,7 +703,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton joinTeamButton;
     private javax.swing.JButton leaveTeamButton;
     private javax.swing.JProgressBar micLev;
@@ -674,6 +712,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton playersRefreshButton;
     private javax.swing.JTextField port;
     private javax.swing.JButton refreshTeamsButton;
+    private javax.swing.JButton sendAnswerButton;
     private javax.swing.JButton setPlayerNameButton;
     private javax.swing.JButton start;
     private javax.swing.JList<String> teamList;

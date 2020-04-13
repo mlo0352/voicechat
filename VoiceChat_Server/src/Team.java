@@ -141,4 +141,8 @@ public class Team {
     public void setCaptain(Player player){
         captain = player;
     }
+    
+    public void removeCaptain(){
+        captain = null;
+    }
 }

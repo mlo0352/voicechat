@@ -182,9 +182,40 @@ public class RestClient{
         }
     }
     
+    public String getTeamCaptain()  throws IOException, MalformedURLException {
+        URL url = new URL(this.url + "getTeamCaptain");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        try {
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("ChId", this.chId);
+            String j = "";
+            JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+            conn.disconnect();
+            Object teamCaptain = responseJson.get("teamCaptain");
+            return teamCaptain.toString();
+        } catch (java.io.FileNotFoundException e) {
+            return null;
+        }
+    }
+    
     public void elevatePlayerToQuizzoMaster() throws IOException, MalformedURLException{
         //implement
         URL url = new URL(this.url + "elevatePlayerToQuizzoMaster");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        String j = "";
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
+    public void elevatePlayerToTeamCaptain() throws IOException, MalformedURLException{
+        //implement
+        URL url = new URL(this.url + "elevatePlayerToTeamCaptain");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
@@ -213,7 +244,7 @@ public class RestClient{
     }
     
     public void setAnswersForTeam(String answers) throws IOException, MalformedURLException{
-        URL url = new URL(this.url + "getSelectedRoundAnswersForTeam");
+        URL url = new URL(this.url + "setAnswersForTeam");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
