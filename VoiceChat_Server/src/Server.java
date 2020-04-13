@@ -39,6 +39,7 @@ public class Server {
     private ArrayList<Player> players = new ArrayList<Player>();
     private Player quizzoMaster = null;
     private Team lobby = new Team();
+    private int currentRound = 1;
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
     
@@ -75,6 +76,7 @@ public class Server {
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
         server.createContext("/getQuizzoMaster", new GetQuizzoMasterHandler(this));
         server.createContext("/elevatePlayerToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
+        server.createContext("/getSelectedRoundAnswersForTeam", new GetSelectedRoundAnswersForTeamHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -343,7 +345,7 @@ public class Server {
     }
     
     public void killPlayer(long chId){
-            for (Team t : teams){
+        for (Team t : teams){
                 if (t.playerInTeam(chId)){
                     t.removePlayer(chId);
                     getPlayerByChId(chId).setInTeam(false); //set team status of main list to false
@@ -353,8 +355,10 @@ public class Server {
         players.remove(p);
         
         //TODO: remove quizzo master if master is killed
-        if (quizzoMaster.getChId() == chId) {
-            quizzoMaster = null;
+        if (quizzoMaster != null){
+            if (quizzoMaster.getChId() == chId) {
+                quizzoMaster = null;
+            }
         }
     }
     
@@ -371,6 +375,33 @@ public class Server {
     
     public Player getQuizzoMaster(){
         return quizzoMaster;
+    }
+    
+    public String getSelectedRoundAnswersForTeam(String selectedRound, String teamName){
+        return getTeamByTeamName(teamName).getAnswers(Integer.valueOf(selectedRound));
+    }
+    
+    public void setSelectedRoundAnswersForTeam(long chId, String answers){
+        getTeamByPlayerChId(chId).setAnswers(currentRound, answers);
+    }
+    
+    public Team getTeamByPlayerChId(long chId){
+        Team r = null;
+        for (Team t : teams){
+            if (t.playerInTeam(chId)){
+                r = t;
+            }
+        }
+        return r;
+    }
+    
+    public Team getTeamByTeamName(String teamName) {
+        for (Team t: teams){
+            if (teamName.equals(t.getTeamName())){
+                return t;
+            }
+        }
+        return null;
     }
     
     public ClientConnection getClientConnectionByChId(long chId) throws Exception{

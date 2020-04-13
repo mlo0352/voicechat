@@ -561,6 +561,10 @@ public class GUI extends javax.swing.JFrame {
         try{
             r.elevatePlayerToQuizzoMaster();
             elevateToQuizzoMasterButton.setEnabled(false);
+            QMGUI q = new QMGUI();
+            q.setRC(r);
+            q.setUp();
+            
         } catch (Exception e) {System.out.println("Elevate To Quizzo Master: " + e);}
         
     }//GEN-LAST:event_elevateToQuizzoMasterButtonActionPerformed

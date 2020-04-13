@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.HashMap;
 import com.google.common.collect.BiMap; 
 import com.google.common.collect.HashBiMap; 
 
@@ -21,6 +22,7 @@ public class Team {
     private int score = 0;
     private boolean muted = true;
     private ArrayList<Player> players = new ArrayList<Player>();
+    private HashMap<Integer, String> answers = new HashMap<Integer, String>();
     
     public void addPlayer(Player player){
         this.addPlayerToTeam(player.getName(), player.getChId());
@@ -119,5 +121,15 @@ public class Team {
             }
         }
         return false;
+    }
+    
+    public void setAnswers(int roundNumber, String answer){
+        answers.put(roundNumber, answer);
+    }
+    
+    public String getAnswers(int roundNumber){
+        try{
+            return answers.get(roundNumber);
+        } catch (Exception e){ return "TASTY";}
     }
 }

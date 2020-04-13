@@ -195,6 +195,23 @@ public class RestClient{
         conn.disconnect();
     }
     
+    public String getSelectedRoundAnswersForTeam(String selectedRound, String teamName) throws IOException, MalformedURLException{
+        URL url = new URL(this.url + "getSelectedRoundAnswersForTeam");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        JSONObject j = new JSONObject();
+        j.put("selectedRound", selectedRound);
+        j.put("teamName", teamName);
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        JSONObject responseJson = jsonFromInputStream(conn.getInputStream());
+        conn.disconnect();
+        String response = responseJson.getString("answers");
+        return response;
+    }
+    
     public OutputStream getOSAndVerifyResponseCode(HttpURLConnection conn, int httpCode, String input) throws IOException{
         OutputStream os = conn.getOutputStream();
         os.write(input.getBytes());
