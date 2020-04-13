@@ -260,15 +260,18 @@ public class QMGUI extends javax.swing.JFrame {
     private void startNewRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewRoundButtonActionPerformed
         // TODO add your handling code here:
         //Create New Round
-        int count = roundSelectorComboBox.getItemCount();
-        int selection = roundSelectorComboBox.getSelectedIndex();
-        roundSelectorComboBox.removeAllItems();
-        ArrayList<Integer> range = new ArrayList<Integer>();
-        for (int i=1; i<=count+1; i++) {
-            range.add(i);
-        }
-        roundSelectorComboBox.setModel(new DefaultComboBoxModel(range.toArray()));
-        roundSelectorComboBox.setSelectedIndex(selection);
+        try {
+            r.setNewRound();
+            int count = roundSelectorComboBox.getItemCount();
+            int selection = roundSelectorComboBox.getSelectedIndex();
+            roundSelectorComboBox.removeAllItems();
+            ArrayList<Integer> range = new ArrayList<Integer>();
+            for (int i=1; i<=count+1; i++) {
+                range.add(i);
+            }
+            roundSelectorComboBox.setModel(new DefaultComboBoxModel(range.toArray()));
+            roundSelectorComboBox.setSelectedIndex(selection);
+        } catch (Exception e) {System.out.println("StartNewRound: " + e);}
     }//GEN-LAST:event_startNewRoundButtonActionPerformed
 
     private void roundSelectorComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roundSelectorComboBoxItemStateChanged

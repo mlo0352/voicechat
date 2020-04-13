@@ -77,6 +77,8 @@ public class Server {
         server.createContext("/getQuizzoMaster", new GetQuizzoMasterHandler(this));
         server.createContext("/elevatePlayerToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
         server.createContext("/getSelectedRoundAnswersForTeam", new GetSelectedRoundAnswersForTeamHandler(this));
+        server.createContext("/setAnswersForTeam", new SetSelectedRoundAnswersForTeamHandler(this));
+        server.createContext("/setNewRound", new SetNewRoundHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -383,6 +385,10 @@ public class Server {
     
     public void setSelectedRoundAnswersForTeam(long chId, String answers){
         getTeamByPlayerChId(chId).setAnswers(currentRound, answers);
+    }
+    
+    public void increaseRound(){
+        currentRound++;
     }
     
     public Team getTeamByPlayerChId(long chId){

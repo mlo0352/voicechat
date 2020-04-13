@@ -13,17 +13,22 @@ import org.json.*;
  *
  * @author Ian
  */
-public class DeleteTeamHandler implements HttpHandler{
+public class SetNewRoundHandler implements HttpHandler{
     
     private final Server mainServer;
 
-    public DeleteTeamHandler(Server mainServer) {
+    public SetNewRoundHandler(Server mainServer) {
         this.mainServer = mainServer;
     }    
     
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        exchange.sendResponseHeaders(501, 0);
+        if (!("POST".equals(requestMethod))){
+            exchange.sendResponseHeaders(405, 0);
+            exchange.close();
+        }
+        mainServer.increaseRound();
+        exchange.sendResponseHeaders(200, 0);
         exchange.close();
     }
             

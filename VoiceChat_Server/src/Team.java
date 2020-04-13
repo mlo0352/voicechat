@@ -23,6 +23,7 @@ public class Team {
     private boolean muted = true;
     private ArrayList<Player> players = new ArrayList<Player>();
     private HashMap<Integer, String> answers = new HashMap<Integer, String>();
+    private Player captain = null;
     
     public void addPlayer(Player player){
         this.addPlayerToTeam(player.getName(), player.getChId());
@@ -131,5 +132,13 @@ public class Team {
         try{
             return answers.get(roundNumber);
         } catch (Exception e){ return "TASTY";}
+    }
+    
+    public Player getCaptain(){
+        return captain;
+    }
+    
+    public void setCaptain(Player player){
+        captain = player;
     }
 }

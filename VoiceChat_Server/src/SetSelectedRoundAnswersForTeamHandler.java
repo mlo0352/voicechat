@@ -14,11 +14,11 @@ import org.json.JSONArray;
  *
  * @author Ian
  */
-public class GetSelectedRoundAnswersForTeamHandler implements HttpHandler{
+public class SetSelectedRoundAnswersForTeamHandler implements HttpHandler{
     
     private final Server mainServer;
 
-    public GetSelectedRoundAnswersForTeamHandler(Server mainServer) {
+    public SetSelectedRoundAnswersForTeamHandler(Server mainServer) {
         this.mainServer = mainServer;
     }    
     
@@ -28,21 +28,11 @@ public class GetSelectedRoundAnswersForTeamHandler implements HttpHandler{
             exchange.sendResponseHeaders(405, 0);
             exchange.close();
         }
+        long chId = Long.parseLong(exchange.getRequestHeaders().getFirst("chId"));
         JSONObject requestJson = new JsonFromInputStream().JsonFromInputStream(exchange.getRequestBody());
-        String teamName = requestJson.get("teamName").toString();
-        String selectedRound = requestJson.get("selectedRound").toString();
-        
-        
-        JSONObject responseJson = new JSONObject();
-        String answers = mainServer.getSelectedRoundAnswersForTeam(selectedRound, teamName);
-        if (answers != null) {
-            responseJson.put("answers", answers);
-        } else {
-            responseJson.put("answers", "");
-        }
-        String responseString = responseJson.toString();
-        exchange.sendResponseHeaders(200, responseString.length());
-        exchange.getResponseBody().write(responseString.getBytes(Charset.forName("UTF-8")));
+        String answers = requestJson.get("answers").toString();
+        mainServer.setSelectedRoundAnswersForTeam(chId, answers);
+        exchange.sendResponseHeaders(200, 0);
         exchange.close();
     }
             
