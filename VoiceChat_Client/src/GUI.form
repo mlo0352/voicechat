@@ -59,37 +59,48 @@
                               <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="playerNameField" pref="219" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jScrollPane1" pref="219" max="32767" attributes="0"/>
+                                          <Component id="jLabel7" max="32767" attributes="0"/>
+                                      </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="joinTeamButton" max="32767" attributes="0"/>
+                                          <Component id="refreshTeamsButton" max="32767" attributes="0"/>
+                                          <Component id="playersRefreshButton" max="32767" attributes="0"/>
+                                          <Component id="leaveTeamButton" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="playerNameField" pref="219" max="32767" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="createTeamNameField" max="32767" attributes="0"/>
+                                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="setPlayerNameButton" max="32767" attributes="0"/>
+                                          <Component id="createTeamButton" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="createTeamNameField" max="32767" attributes="0"/>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel6" alignment="1" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="setPlayerNameButton" max="32767" attributes="0"/>
-                                  <Component id="createTeamButton" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel6" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jScrollPane1" pref="219" max="32767" attributes="0"/>
-                                  <Component id="jLabel7" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="joinTeamButton" max="32767" attributes="0"/>
-                                  <Component id="refreshTeamsButton" max="32767" attributes="0"/>
-                                  <Component id="playersRefreshButton" max="32767" attributes="0"/>
-                                  <Component id="leaveTeamButton" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -148,21 +159,21 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel6" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="playerNameField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="setPlayerNameButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="playerNameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="setPlayerNameButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="createTeamButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="createTeamNameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="createTeamButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="createTeamNameField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -178,7 +189,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane3" max="32767" attributes="0"/>
+                  <Component id="jScrollPane3" min="-2" pref="150" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -201,11 +212,13 @@
     <Component class="javax.swing.JTextField" name="ip">
       <Properties>
         <Property name="text" type="java.lang.String" value="127.0.0.1"/>
+        <Property name="toolTipText" type="java.lang.String" value="The IP of the Quizzo Server"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="start">
       <Properties>
         <Property name="text" type="java.lang.String" value="Connect"/>
+        <Property name="toolTipText" type="java.lang.String" value="Connect to Quizzo Server"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startActionPerformed"/>
@@ -214,6 +227,7 @@
     <Component class="javax.swing.JTextField" name="port">
       <Properties>
         <Property name="text" type="java.lang.String" value="1049"/>
+        <Property name="toolTipText" type="java.lang.String" value="The Port of the Quizzo Server (Default is 1049)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -258,6 +272,7 @@
     <Component class="javax.swing.JButton" name="setPlayerNameButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Set Player Name"/>
+        <Property name="toolTipText" type="java.lang.String" value="Set Your Name"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setPlayerNameButtonActionPerformed"/>
@@ -288,6 +303,7 @@
     <Component class="javax.swing.JButton" name="createTeamButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Create Team"/>
+        <Property name="toolTipText" type="java.lang.String" value="Create A Team"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createTeamButtonActionPerformed"/>
@@ -309,6 +325,7 @@
           <Color blue="cc" green="99" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Join Team"/>
+        <Property name="toolTipText" type="java.lang.String" value="Join the Selected Team"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinTeamButtonActionPerformed"/>
@@ -317,11 +334,13 @@
     <Component class="javax.swing.JCheckBox" name="jCheckBox1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Mute Yourself"/>
+        <Property name="toolTipText" type="java.lang.String" value="Mute your Microphone"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBox2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Mute Team"/>
+        <Property name="toolTipText" type="java.lang.String" value="Mutes Entire Team"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -350,11 +369,13 @@
           <Color blue="0" green="99" red="66" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Send Answer"/>
+        <Property name="toolTipText" type="java.lang.String" value="Submit Answers to Quizzo Master (Only for Team Captain)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="refreshTeamsButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Refresh Teams"/>
+        <Property name="toolTipText" type="java.lang.String" value="Refresh the Teams List"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshTeamsButtonActionPerformed"/>
@@ -394,6 +415,7 @@
     <Component class="javax.swing.JButton" name="playersRefreshButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Refresh Players"/>
+        <Property name="toolTipText" type="java.lang.String" value="Refresh the Players on Team List"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="playersRefreshButtonActionPerformed"/>
@@ -402,6 +424,7 @@
     <Component class="javax.swing.JButton" name="leaveTeamButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Leave Team"/>
+        <Property name="toolTipText" type="java.lang.String" value="Leave the Team You&apos;re On"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="leaveTeamButtonActionPerformed"/>
@@ -417,6 +440,26 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disconnectButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Team Captain"/>
+        <Property name="toolTipText" type="java.lang.String" value="Click To Become Team Captain"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Quizzo Master"/>
+        <Property name="toolTipText" type="java.lang.String" value="Click To Become Quizzo Master"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

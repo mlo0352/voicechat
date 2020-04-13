@@ -37,6 +37,7 @@ public class Server {
     private int controlPort;
     private ArrayList<Team> teams = new ArrayList<Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
+    private Player quizzoMaster = null;
     private Team lobby = new Team();
     
     private UpnpService u; //when upnp is enabled, this points to the upnp service
@@ -72,6 +73,7 @@ public class Server {
         server.createContext("/removePlayerFromTeam", new RemovePlayerFromTeamHandler(this));
         server.createContext("/killPlayer", new KillPlayerHandler(this));
         server.createContext("/toggleMuteTeamBroadcast", new ToggleMuteTeamBroadcastHandler());
+        server.createContext("/elevateToQuizzoMaster", new ElevateToQuizzoMasterHandler(this));
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -348,6 +350,17 @@ public class Server {
         }
         Player p = getPlayerByChId(chId);
         players.remove(p);
+    }
+    
+    public boolean elevateToQuizzoMaster(long chId){
+        //If master already exists, return false
+        if (quizzoMaster != null){
+            quizzoMaster = getPlayerByChId(chId);
+            return true;
+        } else {
+            //Else set master to player and return true
+            return false;
+        }
     }
     
     public ClientConnection getClientConnectionByChId(long chId) throws Exception{

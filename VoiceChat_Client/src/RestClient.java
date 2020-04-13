@@ -164,6 +164,19 @@ public class RestClient{
         conn.disconnect();
     }
     
+    public void elevatePlayerToQuizzoMaster() throws IOException, MalformedURLException{
+        //implement
+        URL url = new URL(this.url + "elevatePlayerToQuizzoMaster");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("ChId", this.chId);
+        String j = "";
+        this.getOSAndVerifyResponseCode(conn, HttpURLConnection.HTTP_OK, j.toString());
+        conn.disconnect();
+    }
+    
     public OutputStream getOSAndVerifyResponseCode(HttpURLConnection conn, int httpCode, String input) throws IOException{
         OutputStream os = conn.getOutputStream();
         os.write(input.getBytes());
