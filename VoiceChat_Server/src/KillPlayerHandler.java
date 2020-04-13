@@ -27,12 +27,14 @@ public class KillPlayerHandler implements HttpHandler{
             exchange.sendResponseHeaders(405, 0);
             exchange.close();
         }
-        JSONObject requestJson = new JsonFromInputStream().JsonFromInputStream(exchange.getRequestBody());
+        //JSONObject requestJson = new JsonFromInputStream().JsonFromInputStream(exchange.getRequestBody());
         
-        long chId = Long.parseLong(requestJson.get("chId").toString());
-        
-        mainServer.killPlayer(chId);
-        
+        long chId = Long.parseLong(exchange.getRequestHeaders().getFirst("chId"));
+        //long chId = Long.parseLong(requestJson.get("chId").toString());
+        try {
+            mainServer.killPlayer(chId);
+        } catch (Exception e) {System.out.println("Kill Player Handler: " + e);}
+            
         exchange.sendResponseHeaders(200, 0);
         exchange.close();
         

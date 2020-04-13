@@ -181,10 +181,30 @@ public class Server {
                         continue;
                     } else { //we got something to broadcast
                         Message m = broadCastQueue.get(0);
-                        for (ClientConnection cc : clients) { //broadcast the message
-                            //System.out.println(players);
-                            if (cc.getChId() != m.getChId()) {
-                                cc.addToQueue(m);
+                        boolean inTeam = getPlayerByChId(m.getChId()).getInTeam();
+                        if (inTeam){
+                            for (Team t : teams){
+                                Team senderTeam = new Team();
+                                if (t.playerInTeam(m.getChId())){
+                                    senderTeam = t;
+                                }
+                                ArrayList<Player> senderTeamPlayers = getPlayersByTeam(t.getTeamName());
+                                for (Player p: senderTeamPlayers){
+                                    if (p.getChId() != m.getChId()) {
+                                        getClientConnectionByChId(p.getChId()).addToQueue(m);
+                                        System.out.println(m.getChId() + "sending to: " + p.getChId());
+                                    }
+                                }
+                            }
+                        } else {
+                            //if the current player isn't in a team, send to any other players not in a team
+                            for (ClientConnection cc : clients){
+                                if (!getPlayerByChId(cc.getChId()).getInTeam()) {
+                                    if (cc.getChId() != m.getChId()) {
+                                        //don't send to self
+                                        cc.addToQueue(m);
+                                    }
+                                }
                             }
                         }
                         broadCastQueue.remove(m); //remove it from the broadcast queue
@@ -328,6 +348,15 @@ public class Server {
         }
         Player p = getPlayerByChId(chId);
         players.remove(p);
+    }
+    
+    public ClientConnection getClientConnectionByChId(long chId) throws Exception{
+        for (ClientConnection cc: clients){
+            if (chId == cc.getChId()){
+                return(cc);
+            }
+        }
+        throw(new NoSuchElementException("chId not in clients list: " + chId));
     }
     
 }
